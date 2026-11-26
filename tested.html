@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BOL SEHAT — Tested</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI','Noto Sans',system-ui,sans-serif;background:#eaf3ee;color:#1c1430;min-height:100vh}
+  #app{max-width:520px;margin:0 auto;min-height:100vh;background:linear-gradient(180deg,#f6fbf8 0%,#e7f1ea 55%,#fff 100%);display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,0,0,.06)}
+  header{background:linear-gradient(120deg,#0d6b4f,#12a17a);color:#fff;padding:28px 22px 24px;border-radius:0 0 26px 26px}
+  .logo{font-size:26px;font-weight:900;letter-spacing:1px}
+  .tag{font-size:12.5px;opacity:.92;margin-top:6px;line-height:1.5}
+  .pill{display:inline-block;margin-top:12px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.5px}
+  main{flex:1;padding:18px 16px 90px}
+  .micwrap{text-align:center;margin:6px 0 14px}
+  .score{display:flex;gap:10px;justify-content:center;margin:16px 0 6px}
+  .scard{background:#fff;border-radius:16px;padding:14px 10px;flex:1;text-align:center;box-shadow:0 4px 14px rgba(13,107,79,.08)}
+  .scard .num{font-size:26px;font-weight:900}
+  .scard .lbl{font-size:11px;color:#585264;margin-top:3px}
+  .pass .num{color:#0d8a5f}.note .num{color:#b8860b}.total .num{color:#3b3b6b}
+  .bar{height:10px;border-radius:999px;background:#e3ece7;margin:14px 4px 4px;overflow:hidden}
+  .bar i{display:block;height:100%;width:75%;background:linear-gradient(90deg,#12a17a,#0d6b4f);border-radius:999px}
+  .barlbl{font-size:11px;color:#585264;text-align:center;margin-bottom:14px}
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:8px 0 16px}
+  .chip{border:1.5px solid #b8d4c8;background:#fff;padding:7px 16px;border-radius:999px;font-size:14px;font-weight:700;color:#1c1d95;cursor:pointer}
+  .chip.active{background:#ede9fe;border-color:#6d28d9;color:#4c1d95}
+  .qcard{background:#fff;border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 4px 16px rgba(28,20,48,.06);border-left:5px solid #0d8a5f}
+  .qcard.warn{border-left-color:#d9a416}
+  .qhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .qname{font-weight:800;font-size:15px}
+  .badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .b-pass{background:#e2f6ec;color:#0a6b47}
+  .b-note{background:#fdf3d7;color:#8a6508}
+  .qres{font-size:13.5px;color:#3c3748;margin-top:8px;line-height:1.55}
+  .heard{margin:16px auto 0;max-width:340px;background:#fdf3d7;border:1px solid #eed98a;padding:12px 14px;border-radius:14px;font-size:12px;color:#5d4710;text-align:center;line-height:1.6}
+  footer{padding:14px;text-align:center;font-size:11px;color:#585254}
+  a{color:#0a6b47}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">BOL SEHAT — TESTED</div>
+    <div class="tag">Live app par chalaye gaye asli tests. Jo kaam kiya, jo nahi, aur jo phone pe dekhna baaki hai — sab yahan, seedhi baat.</div>
+    <span class="pill">26 NOV 2026 • v1.3.4 (build 10014)</span>
+  </header>
+  <main>
+    <div class="score">
+      <div class="scard total"><div class="num">12</div><div class="lbl">Total tests</div></div>
+      <div class="scard pass"><div class="num">9</div><div class="lbl">Kaam kiya</div></div>
+      <div class="scard note"><div class="num">3</div><div class="lbl">Phone pe check baaki</div></div>
+    </div>
+    <div class="bar"><i></i></div>
+    <div class="barlbl">9 / 12 pass desktop Chrome par</div>
+
+    <div class="chips">
+      <button class="chip active" data-f="all">Sab</button>
+      <button class="chip" data-f="pass">Kaam kiya</button>
+      <button class="chip" data-f="note">Check baaki</button>
+    </div>
+
+    <div id="list"></div>
+
+    <div class="heard">
+      Test environment: desktop Chrome (cloud browser), 26 Nov 2026.<br>
+      Mic aur speaker is browser mein sunai/sunar nahi dete — isliye voice ke 2 tests Manan ke phone par confirm karne hain.<br>
+      App khud kehta hai: student prototype, doctor-checked nahi.
+    </div>
+  </main>
+  <footer>
+    BOL SEHAT • Tested page • App: <a href="https://manangupta1811-ai.github.io/bol-sehat/">manangupta1811-ai.github.io/bol-sehat</a>
+  </footer>
+</div>
+<script>
+const TESTS=[
+ {t:"Site live hai (HTTPS, GitHub Pages)",c:"pass",r:"manangupta1811-ai.github.io/bol-sehat 200 OK deta hai. Served file humari index.html se byte-by-byte same."},
+ {t:"Mobile layout sahi dikhta hai",c:"pass",r:"Phone-width layout, mic button, symptom chips, disclaimers — sab screenshot se verify kiya."},
+ {t:"Sar dard / Headache poora flow",c:"pass",r:"Chip dabaya → 18+ check → ~20 adaptive sawaal (red-flag screening ke saath) → review screen → poora DOCTOR CARD (SELF-REPORTED) bana. Sab jawab card mein sahi aaye."},
+ {t:"Red-flag sawaal sahi jagah aate hain",c:"pass",r:"Kamzori/sunnpan, nazar, gardan akadna + bukhar, chot — yeh sawaal flow ke shuru mein poochhe jaate hain, jaisa hona chahiye."},
+ {t:"Koi bhi jawab baad mein badal sakte hain",c:"pass",r:"Review screen par har jawab ke paas 'Badlein' hai. Note bhi likha hai: dependent sawaal dobara poochhe jayenge."},
+ {t:"Free-text likhna kaam karta hai",c:"pass",r:"'mujhe sar dard hai' likh ke Aage dabaya → Doctor Card flow shuru ho gaya."},
+ {t:"Shuru se (restart) kaam karta hai",c:"pass",r:"Flow ke beech se home screen par wapas aaya, chips dobara dikhe."},
+ {t:"Doosra topic (Bukhar / Fever) bhi chalta hai",c:"pass",r:"Fever chip se bhi flow shuru hua (18+ gate ke saath)."},
+ {t:"Emergency links (112 / 108) maujood hain",c:"pass",r:"Har screen par tel:112 aur tel:108 links hain."},
+ {t:"Voice input (mic) aur voice output (suno)",c:"note",r:"Buttons hain aur browser mein SpeechRecognition + speechSynthesis dono available hain. Par test browser mein mic/speaker nahi hai — awaaz asli phone par confirm karni hai."},
+ {t:"Copy Card button",c:"note",r:"Test browser mein click karne par page hang ho gaya aur copy confirm nahi hua. Ek baar Manan ke phone par dabaa ke dekhna zaroori — agar wahan bhi dikkat aaye to fix karna hoga."},
+ {t:"Offline kaam karna",c:"note",r:"Footer likhta hai 'Offline card/audio', par koi service worker register nahi hota — page load ke liye internet chahiye. Ya to offline caching laagoo karo ya line hatao."}
+];
+const list=document.getElementById('list');
+function render(f){
+  list.innerHTML='';
+  TESTS.filter(x=>f==='all'||x.c===f).forEach(x=>{
+    const d=document.createElement('div');
+    d.className='qcard'+(x.c==='note'?' warn':'');
+    d.innerHTML='<div class="qhead"><div class="qname">'+x.t+'</div>'+
+      '<span class="badge '+(x.c==='pass'?'b-pass':'b-note')+'">'+(x.c==='pass'?'PASS':'CHECK BAAKI')+'</span></div>'+
+      '<div class="qres">'+x.r+'</div>';
+    list.appendChild(d);
+  });
+}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active');render(c.dataset.f);
+}));
+render('all');
+</script>
+</body>
+</html>
