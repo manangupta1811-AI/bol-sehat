@@ -1,0 +1,3867 @@
+<!DOCTYPE html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>BOL SEHAT</title><style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body { font-family: 'Segoe UI', 'Noto Sans Devanagari', 'DejaVu Sans', sans-serif; background: #1c1430; color: #1c1430; min-height: 100%; }
+  #app { max-width: 460px; margin: 0 auto; min-height: 100vh; background: linear-gradient(160deg, #f5f3ff 0%, #eff6ff 50%, #ecfdf5 100%); display: flex; flex-direction: column; box-shadow: 0 0 60px rgba(0,0,0,.5); }
+  header { background: linear-gradient(120deg, #6d28d9, #2563eb 60%, #0d9488); color: #fff; padding: 18px 18px 14px; border-radius: 0 0 26px 26px; }
+  .logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; }
+  .tag { font-size: 12.5px; opacity: .92; margin-top: 2px; }
+  .demobar { margin-top: 9px; display: inline-block; background: rgba(255,255,255,.2); border: 1px dashed rgba(255,255,255,.7); font-size: 10.5px; font-weight: 700; padding: 3px 10px; border-radius: 999px; letter-spacing: .4px; }
+  main { flex: 1; padding: 18px 16px 90px; }
+  .micwrap { text-align: center; padding: 26px 0 10px; }
+  #mic { width: 132px; height: 132px; border-radius: 50%; border: none; cursor: pointer; font-size: 52px; color: #fff;
+    background: radial-gradient(circle at 30% 25%, #a78bfa, #6d28d9 55%, #4c1d95);
+    box-shadow: 0 14px 34px rgba(109,40,217,.45), inset 0 -6px 14px rgba(0,0,0,.25); transition: transform .12s; }
+  #mic:active { transform: scale(.94); }
+  #mic.live { animation: pulse 1.1s infinite; background: radial-gradient(circle at 30% 25%, #fb7185, #e11d48 55%, #9f1239); box-shadow: 0 14px 34px rgba(225,29,72,.5); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(225,29,72,.45);} 70% { box-shadow: 0 0 0 26px rgba(225,29,72,0);} 100% { box-shadow: 0 0 0 0 rgba(225,29,72,0);} }
+  .prompt { text-align: center; font-size: 17px; font-weight: 800; margin-top: 14px; }
+  .sub { text-align: center; font-size: 12.5px; color: #585254; margin-top: 5px; line-height: 1.5; }
+  .heard { margin: 16px auto 0; max-width: 340px; background: #fff; border-radius: 16px; padding: 12px 14px; font-size: 14.5px; box-shadow: 0 4px 14px rgba(28,20,48,.08); display: none; }
+  .heard b { color: #6d28d9; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 20px; }
+  .chip { border: 1.5px solid #c4b5fd; background: #fff; color: #5b21b6; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+  .chip:active { background: #ede9fe; }
+  .or { text-align: center; font-size: 11px; color: #8a86a0; margin-top: 22px; letter-spacing: .5px; }
+  .qcard { background: #fff; border-radius: 20px; padding: 20px 18px; box-shadow: 0 8px 24px rgba(28,20,48,.1); }
+  .qnum { font-size: 11px; font-weight: 800; color: #0d9488; letter-spacing: 1px; }
+  .qtext { font-size: 19px; font-weight: 800; margin: 8px 0 4px; line-height: 1.35; }
+  .qsub { font-size: 12px; color: #585254; margin-bottom: 14px; }
+  .opts { display: flex; flex-direction: column; gap: 10px; }
+  .opt { border: 2px solid #ddd6fe; background: #faf9ff; border-radius: 14px; padding: 14px 16px; font-size: 16px; font-weight: 700; color: #4c1d95; cursor: pointer; text-align: center; }
+  .opt:active { background: #ede9fe; transform: scale(.98); }
+  .anscard { border-radius: 22px; padding: 22px 18px; color: #fff; box-shadow: 0 10px 28px rgba(28,20,48,.22); }
+  .anscard.g { background: linear-gradient(135deg, #059669, #10b981); }
+  .anscard.y { background: linear-gradient(135deg, #d97706, #f59e0b); }
+  .anscard.r { background: linear-gradient(135deg, #be123c, #f43f5e); }
+  .anslvl { font-size: 24px; font-weight: 900; letter-spacing: .5px; line-height: 1.3; }
+  .anstxt { font-size: 14.5px; margin-top: 10px; line-height: 1.6; }
+  .tips { background: #fff; border-radius: 18px; padding: 16px; margin-top: 14px; box-shadow: 0 6px 18px rgba(28,20,48,.08); }
+  .tips h3 { font-size: 14px; color: #0f766e; letter-spacing: .5px; margin-bottom: 8px; }
+  .tips li { font-size: 14px; line-height: 1.6; margin-left: 18px; }
+  .sampleflag { margin-top: 12px; background: #fffbeb; border: 2px solid #f59e0b; color: #92400e; font-size: 12px; font-weight: 700; border-radius: 12px; padding: 9px 12px; line-height: 1.5; }
+  .bigbtns { display: flex; gap: 10px; margin-top: 14px; }
+  .bigbtn { flex: 1; border: none; border-radius: 16px; padding: 15px 8px; font-size: 14.5px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 16px rgba(28,20,48,.15); }
+  .bigbtn.card { background: linear-gradient(120deg, #6d28d9, #2563eb); color: #fff; }
+  .bigbtn.call { background: linear-gradient(120deg, #0d9488, #10b981); color: #fff; }
+  .bigbtn.again { background: #fff; color: #5b21b6; border: 2px solid #c4b5fd; }
+  .dcard { background: #fff; border: 2.5px dashed #6d28d9; border-radius: 18px; padding: 18px; margin-top: 14px; font-size: 13.5px; line-height: 1.7; }
+  .dcard h3 { color: #6d28d9; font-size: 15px; letter-spacing: 1px; margin-bottom: 6px; }
+  .dcard .row { display: flex; gap: 8px; } .dcard .row b { min-width: 92px; color: #585254; }
+  .dcard .disc { margin-top: 8px; font-size: 10.5px; color: #8a86a0; }
+  footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 460px; margin: 0 auto; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-top: 1px solid #e5e2f0; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+  footer button { border: none; background: none; font-size: 12px; font-weight: 700; color: #6d28d9; cursor: pointer; }
+  .foot-note { font-size: 10px; color: #8a86a0; }
+  #textin { display: flex; gap: 8px; margin-top: 16px; }
+  #textin input { flex: 1; border: 2px solid #ddd6fe; border-radius: 14px; padding: 12px 14px; font-size: 15px; }
+  #textin button { border: none; border-radius: 14px; background: #6d28d9; color: #fff; font-weight: 800; padding: 0 18px; font-size: 15px; cursor: pointer; }
+
+input {min-width:0} button,a {touch-action:manipulation} .chip{min-height:44px} .source{display:block;color:#075985;font-size:13px;margin-top:12px;overflow-wrap:anywhere} .safe{background:#fff;border-left:4px solid #6d28d9;border-radius:12px;padding:12px;font-size:12px;line-height:1.6;margin-top:14px;color:#4c1d95} .plain{background:linear-gradient(120deg,#5b21b6,#2563eb)} .warn{background:#9f1239} .row{overflow-wrap:anywhere}.dcard .row{display:block;margin:8px 0}.dcard .row b{display:block} .dcard{scroll-margin-top:12px} .bigbtns a{text-align:center;text-decoration:none} .tag{line-height:1.5} .fine{font-size:12px;line-height:1.6;color:#585254} .listen{width:100%;margin-top:12px} .opt{min-height:48px} .mini{font-size:12px;color:#6d28d9;margin-top:14px;line-height:1.6} .sampleflag{font-size:12px} .chips{margin-top:14px} header .demobar{white-space:normal;line-height:1.5} main{padding-bottom:30px} footer{position:static;flex-shrink:0;width:100%}
+
+/* Calm, readable health interface. Presentation only. */
+body{background:#e8efed;color:#163c35;font-family:Arial,'Noto Sans Devanagari',sans-serif}
+#app{max-width:480px;background:#f7faf9;box-shadow:0 0 70px #173e3510}
+header{background:#fff;color:#173e35;padding:24px 22px 18px;border-radius:0;border-bottom:1px solid #e0ebe7}
+.logo{font-size:25px;letter-spacing:2px;color:#174b40;line-height:1.2}
+.tag{font-size:13px;line-height:1.6;color:#567069;margin-top:10px}
+.demobar{background:#e8f3ee;color:#285e4e;border:0;border-radius:6px;padding:5px 8px;font-size:10px;letter-spacing:.5px;margin-top:12px}
+header>div:last-child{color:#547067!important;font-size:12px!important;margin-top:12px!important}
+header a{color:#1e6654!important;text-underline-offset:3px}
+main{padding:14px 20px 24px}
+.micwrap{padding:17px 0 0}
+#mic{width:100px;height:100px;background:radial-gradient(circle at 32% 20%,#4eb19a,#16836d 65%,#08624f);box-shadow:0 8px 20px #17866c30,inset 0 2px 2px #ffffff44;font-size:39px}
+#mic.live{background:#b83247;box-shadow:0 0 0 8px #f8e2e7;animation:pulse 1.1s infinite}
+.prompt{font-size:23px;color:#173e35;margin-top:17px;letter-spacing:-.5px}
+.sub{font-size:14px;line-height:1.6;margin-top:6px;color:#657670}
+#textin{margin-top:20px;gap:8px}
+#textin input{border:1px solid #cfddd6;background:#fff;border-radius:12px;padding:14px;font-size:16px;width:0;color:#173e35}
+#textin button{background:#177d65;color:white;border-radius:12px;padding:0 17px;font-size:15px}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.chip{border:1px solid #d7e5de;border-radius:12px;font-size:14px;line-height:1.4;font-weight:600;text-align:left;padding:14px 12px;color:#235c4d;background:#edf6f0;min-height:62px}
+.chip:nth-child(2){background:#eef2fc;color:#46618d;border-color:#dce4f3}
+.chip:nth-child(3){background:#fff4e4;color:#886022;border-color:#efe2cc}
+.chip:nth-child(4){background:#f1ecf8;color:#6a4b85;border-color:#e6ddef}
+.chip:nth-child(5){background:#faeeed;color:#8d5149;border-color:#efdeda}
+.chip:active,.opt:active{transform:scale(.985);background:#dcefe6}
+.heard{background:#eaf4ee;border-radius:12px;box-shadow:none;font-size:15px}
+.safe{background:#edf3f0;border:0;border-radius:12px;padding:14px;font-size:13px;color:#4d665d;line-height:1.6;margin-top:18px}
+.safe b{color:#34564a}
+.mini{font-size:12px;color:#718178;line-height:1.65;margin-top:14px}
+.tips{box-shadow:none;background:#fff;border:1px solid #e0e9e4;border-radius:16px;padding:18px;margin-top:14px}
+.tips h3{font-size:13px;letter-spacing:.7px;font-weight:800;color:#1d6a55;line-height:1.5;margin-bottom:10px}
+.tips li{font-size:16px;line-height:1.65;margin-bottom:7px;margin-left:18px;color:#2c4840}
+.fine{font-size:14px;line-height:1.65;color:#62736a}
+.source{font-size:14px;line-height:1.5;color:#1c705b;text-underline-offset:3px;margin-top:10px}
+.bigbtns{gap:9px;margin-top:14px}
+.bigbtn{border-radius:12px;font-size:14px;line-height:1.4;padding:15px 10px;box-shadow:none;min-height:49px;display:flex;align-items:center;justify-content:center}
+.bigbtn.card{background:#227c64;color:#fff}
+.bigbtn.call{background:#176b57;color:#fff}
+.bigbtn.again{background:#fff;border:1px solid #c8dcd1;color:#23624d}
+.qcard{padding:22px 18px;border:1px solid #e0e9e4;border-radius:18px;background:#fff;box-shadow:none}
+.qnum{font-size:10px;line-height:1.7;letter-spacing:1px;color:#5b7b6c}
+.qtext{font-size:24px;line-height:1.35;color:#173e35;letter-spacing:-.4px;margin:13px 0 10px}
+.qsub{font-size:15px;line-height:1.65;color:#64766b;margin-bottom:22px}
+.opts{gap:10px}.opt{border:1px solid #cddfd3;background:#f6faf7;color:#245e4a;border-radius:12px;font-size:17px;line-height:1.45;padding:15px;min-height:52px;box-shadow:none}
+.listen{font-size:14px;min-height:46px;padding:12px;margin-top:10px;border-color:#e2e9e4;color:#5d7567;background:#fff}
+.anscard{border-radius:18px;padding:24px 21px;box-shadow:none}
+.anscard.plain{background:#e4f1e9;color:#204e3a;border:1px solid #cee2d3}
+.anscard.warn{background:#a52e42;color:#fff}
+.anslvl{font-size:27px;line-height:1.25;letter-spacing:-.5px}
+.anstxt{font-size:16px;line-height:1.7;margin-top:14px}
+.dcard{border:1px solid #b8d3c2;border-top:4px solid #25795d;border-radius:16px;padding:18px;background:#fff;font-size:15px;line-height:1.6;margin-top:16px}
+.dcard h3{font-size:13px;letter-spacing:1px;color:#246047;margin-bottom:15px}
+.dcard .row{display:block;padding:9px 0;border-top:1px solid #edf1ee;margin:0;color:#294b3c}
+.dcard .row b{display:block;font-size:12px;color:#718176;font-weight:600;margin-bottom:4px}
+.dcard .disc{font-size:12px;line-height:1.65;color:#718176;margin-top:12px}
+footer{background:#fff;border-top:1px solid #e2eae5;padding:16px 12px;gap:8px;max-width:480px}
+footer button{color:#2d7055;font-size:12px;min-height:32px}.foot-note{font-size:9px;color:#8a968c;text-align:center}
+@media(max-width:350px){main{padding-left:14px;padding-right:14px}header{padding-left:18px;padding-right:18px}.chip{font-size:13px;padding:12px 9px}.anslvl{font-size:25px}.qtext{font-size:22px}}
+#sndbtn{background:#174f3f;color:white;border-radius:999px;padding:10px 16px;min-height:44px;flex-shrink:0;box-shadow:0 2px 8px #174f3f22} footer{position:fixed;bottom:0;left:0;right:0;z-index:30;margin:0 auto;max-width:480px;background:#fff;border-top:1px solid #e2eae5;padding:12px 14px;gap:8px;min-height:60px;display:flex;justify-content:space-between;align-items:center} main{padding-bottom:140px} .foot-note{flex-shrink:1} #voiceStatus{background:#edf5ed;border:1px solid #ccded1;border-radius:10px;padding:10px;margin-bottom:12px;color:#345a46}
+footer{position:static;max-width:none;min-height:60px}main{padding-bottom:24px}.anscard.warn .fine{color:#fff}textarea{width:100%;min-height:110px;padding:12px;font:inherit;border:1px solid #b8d3c2;border-radius:10px;margin:12px 0;resize:vertical}.tools{display:grid;gap:8px;margin-top:14px}.edit{padding:8px;min-height:44px;margin-left:6px;background:#edf5ed;border:1px solid #b8d3c2;border-radius:8px}.check{display:flex;align-items:center;gap:10px}.check input{width:22px;height:22px;flex-shrink:0}summary{min-height:44px;cursor:pointer;padding:10px 0;font-weight:700}.urgentLink{display:block;color:#a42626}.source{overflow-wrap:anywhere}.qnum{overflow-wrap:anywhere}a.bigbtn{display:inline-block;margin:6px 0}.anstxt,.fine,.row{overflow-wrap:anywhere}.alertbar{background:#fee2e2;border:1px solid #ef4444;color:#7f1d1d;padding:10px 12px;border-radius:10px;margin-bottom:12px;font-size:13.5px;font-weight:700}.alertbar a{color:#991b1b;font-weight:800}.alertbar.amber{background:#fef3c7;border-color:#f59e0b;color:#78350f}.alertbar.amber a{color:#92400e}</style></head><body><div id="app"><header><div class="logo">BOL SEHAT</div><div class="tag">Apni takleef bolo. Doctor Card banao.<br>Official sources se aam jaankari padho.</div><div class="demobar">STUDENT PROTOTYPE • NOT DOCTOR-CHECKED</div><div style="margin-top:10px;font-size:12px">Emergency? <a href="tel:112" style="color:white;font-weight:700">112</a> / <a href="tel:108" style="color:white;font-weight:700">108 (jahan available)</a></div></header><footer><button onclick="goHome()">↻ Shuru se</button><span class="foot-note">v1.3.4 • 10014</span><button id="sndbtn" onclick="toggleSound()">🔊 Mute</button></footer><main id="main"></main></div><script>const topics=[{"id": "head", "name": "Sar dard / Headache", "url": "https://www.nhs.uk/symptoms/headaches/", "source": "NHS - Headaches", "care": ["Paani piyo aur meals skip mat karo.", "Relax karo. Screen ko lagatar der tak dekhne se break lo.", "Aam neend ka routine rakho; zaroorat se zyada sona headache badha sakta hai."], "review": "Headache baar-baar ho, badhe, ya self-care se na sudhre to doctor se milo.", "warning": "Achanak bahut tez dard, head injury, fit, kamzori/sunnpan, bolne ya chalne mein dikkat, confusion, nazar chali jaana, tez bukhar ke saath gardan akadna: turant medical help."}, {"id": "cold", "name": "Sardi-khansi / Cold", "url": "https://www.nhs.uk/conditions/common-cold/", "source": "NHS - Common cold", "care": ["Aaram karo aur paani jaise fluids piyo.", "Khansi/chheenk ke liye tissue use karo, phir haath sabun se dhoyo.", "Bachchon ko garam paani ke bowl se bhaap mat dilao: jalne ka risk hai."], "review": "Bukhar 3 din se zyada, symptoms badhna, 10 din tak sudhar na hona, ya khansi 3 hafte se zyada: doctor se review.", "warning": "Saans ki dikkat ya chest pain ho to turant medical help lo."}, {"id": "fever", "name": "Bukhar / Fever (adults)", "url": "https://www.nhs.uk/conditions/fever-in-adults/", "source": "NHS - Fever in adults", "care": ["Aaram karo aur paani piyo, taaki dehydration na ho.", "Bukhar rehne tak ghar par raho aur doosron se nazdeeki contact se bacho.", "Thermometer use karte waqt uski instructions follow karo."], "review": "Bukhar ghar par care ke bawajood theek na ho ya badhe: jaldi doctor se milo.", "warning": "Saans ki dikkat, confusion, fit, ya tez bukhar ke saath gardan akadna ho to turant medical help."}, {"id": "acid", "name": "Acidity / Indigestion", "url": "https://www.nhs.uk/conditions/indigestion/", "source": "NHS - Indigestion", "care": ["Chai, coffee aur cola kam karo.", "Sone se 3-4 ghante pehle khana mat khao.", "Rich, mirchi wale aur fatty foods se bacho; smoking mat karo."], "review": "Baar-baar indigestion, severe pain, bina wajah weight loss, nigalne ki dikkat, baar-baar ulti, ya khoon: doctor se review.", "warning": "Chest pressure, chest pain, paseena, saans ki dikkat, ya dard arm/jaw/back tak jaaye to acidity maan kar ignore mat karo: emergency medical help lo."}, {"id": "cut", "name": "Chhota cut / Graze", "url": "https://www.nhs.uk/conditions/cuts-and-grazes/", "source": "NHS - Cuts and grazes", "care": ["Sirf chhote wound ki general care: pehle haath dhoyein.", "Bleeding ruk chuki ho to ghaav ko saaf paani se dhoyein, saaf dressing lagayein.", "Dressing saaf/sukhi rakhein. Koi phansi cheez khud na nikalein.", "Dirty wound, infection, bite/scratch ya tetanus ka doubt ho to clinician se assessment."], "review": "Bite, mitti/pus, redness, sujan, badhta dard, bukhar ya bada cut ho to jaldi medical help.", "warning": "Bleeding na ruke, gehra/bahut bada cut ho, sunnpan ho, ya kuch andar phansa ho: turant medical help. Phansi hui cheez khud mat nikalo."}, {"id": "const", "name": "Kabz / Constipation", "url": "https://www.nhs.uk/conditions/constipation/", "source": "NHS - Constipation", "care": ["Paani aur fluids zyada piyo; alcohol kam karo.", "Fibre dheere-dheere badhao: fruits, oats, wheat bran.", "Toilet ka time fix rakho; jhapat aaye to delay mat karo; pairon ke neeche chhota stool rakh kar ghutne upar karo.", "Roz walk ya halki exercise karo.", "Na sudhre to pharmacist se salah lo; laxative sirf unki salah par, thode din ke liye."], "review": "Kabz na sudhre, baar-baar ho, naya bowel-habit badlav, khoon, wazan ghatna ya pet dard ho to doctor se review. Severe pain ya pet dard ke saath potty/gas bilkul band ho to emergency help.", "warning": "Potty mein khoon, tez pet dard, baar-baar ulti, ya pet phoolna ho: jaldi medical help lo."}, {"id": "loose", "name": "Loose motions / Diarrhoea", "url": "https://www.nhs.uk/conditions/diarrhoea-and-vomiting/", "source": "NHS - Diarrhoea and vomiting", "care": ["Ghar par rest karo; paani chhote-chhote ghunt piyo. Fruit juice aur cold drink mat piyo.", "Bhukh lage tab khao; fatty aur teekha khana avoid karo.", "Pharmacist se ORS (oral rehydration powder) ke baare mein poochho.", "Haath sabun se baar-baar dhoyo; towels share mat karo; symptoms rukne ke 2 din tak bahar/kaam kam jao."], "review": "Diarrhoea 7 din se zyada, ulti 2 din se zyada, potty mein khoon, ya dehydration ke signs (susoo kam ya dark): doctor se milo.", "warning": "Ulti mein khoon ya coffee jaisa, achanak tez pet dard, gardan akadna ke saath tez sar dard, confusion, ya saans tez/mushkil: turant emergency help."}, {"id": "throat", "name": "Gala kharab / Sore throat", "url": "https://www.nhs.uk/conditions/sore-throat/", "source": "NHS - Sore throat", "care": ["Garam namak-paani se gargle karo (aadha chammach namak, garam paani) - thook do, peena nahi.", "Paani piyo; thanda ya naram khana khao; dhuan se door raho; aaram karo.", "Pharmacist se dard ke liye options poochh sakte ho. Antibiotics sirf doctor/pharmacist de."], "review": "1 hafte mein na sudhre, baar-baar ho, ya muh/gardan mein ganth ya 3 hafte purana ulcer ho: doctor se milo.", "warning": "Saans mushkil, nigalna mushkil ya lar tapakna, saans mein seeti-awaz, ya bahut tez bigadna: turant emergency help."}];
+const FLOWS={
+ "head": [
+  {
+   "id": "onset",
+   "q": [
+    "Sir dard kaise shuru hua?",
+    "सिर दर्द कैसे शुरू हुआ?"
+   ],
+   "opts": [
+    [
+     "Achanak, bahut tez",
+     "अचानक, बहुत तेज़"
+    ],
+    [
+     "Dheere-dheere",
+     "धीरे धीरे"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "location",
+   "q": [
+    "Sir dard kahan hai?",
+    "सिर दर्द कहाँ है?"
+   ],
+   "opts": [
+    [
+     "Ek taraf",
+     "एक तरफ़"
+    ],
+    [
+     "Dono taraf / pura sir",
+     "दोनों तरफ़ या पूरा सिर"
+    ],
+    [
+     "Aankh ke aas-paas",
+     "आँख के आस पास"
+    ],
+    [
+     "Gardan / peeche",
+     "गर्दन या पीछे"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ]
+  },
+  {
+   "id": "neuro",
+   "q": [
+    "Kya haath-pair mein nayi kamzori ya sunnpan hai, fit ya daura aaya, thoda confusion hai, ya bolne-chalne mein dikkat ho rahi hai?",
+    "क्या हाथ पैर में नई कमज़ोरी या सुन्नपन है, फिट या दौरा आया, थोड़ा कन्फ्यूज़न है, या बोलने चलने में दिक्कत हो रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "visionloss",
+   "q": [
+    "Kya aankhon se dekhne mein dhundhla-dhundhla ya blur dikh raha hai?",
+    "क्या आँखों से देखने में धुंधला धुंधला या ब्लर दिख रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "visiongone",
+   "kind": "choice",
+   "q": [
+    "Kya achanak ek ya dono aankhon ki nazar bahut kam ho gayi hai, ya andhera lag raha hai?",
+    "क्या अचानक एक या दोनों आँखों की नज़र बहुत कम हो गई है, या अंधेरा लग रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   },
+   "sources": [
+    1
+   ]
+  },
+  {
+   "id": "injury",
+   "q": [
+    "Pichhle 3 mahine mein sir par chot lagi?",
+    "पिछले तीन महीने में सिर पर चोट लगी?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "meningitis",
+   "q": [
+    "Bukhar ke saath gardan akad rahi hai, roshni se aankhon ko bahut takleef ho rahi hai, ya skin par naye dagh-dhabbe hain jo dabane se nahi mitte?",
+    "बुखार के साथ गर्दन अकड़ रही है, रोशनी से आँखों को बहुत तकलीफ़ हो रही है, या स्किन पर नए दाग़ धब्बे हैं जो दबाने से नहीं मिटते?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Sir dard kab se hai?",
+    "सिर दर्द कब से है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "pattern",
+   "q": [
+    "Dard lagataar hai ya aata-jaata hai?",
+    "दर्द लगातार है या आता जाता है?"
+   ],
+   "opts": [
+    [
+     "Lagataar",
+     "लगातार"
+    ],
+    [
+     "Aata-jaata",
+     "आता जाता है"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ]
+  },
+  {
+   "id": "quality",
+   "q": [
+    "Sir dard kaisa lagta hai?",
+    "सिर दर्द कैसा लगता है?"
+   ],
+   "opts": [
+    [
+     "Dabaav / kasav",
+     "दबाव या कसाव"
+    ],
+    [
+     "Dhadakta hua",
+     "धड़कता हुआ"
+    ],
+    [
+     "Chubhta / tez",
+     "चुभता या तेज़"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ]
+  },
+  {
+   "id": "impact",
+   "q": [
+    "Sir dard ka kaamon par kitna asar hai?",
+    "सिर दर्द का कामों पर कितना असर है?"
+   ],
+   "opts": [
+    [
+     "Halka, kaam ho rahe hain",
+     "हल्का, काम हो रहे हैं"
+    ],
+    [
+     "Kaam mushkil hain",
+     "काम मुश्किल हैं"
+    ],
+    [
+     "Bahut tez, kaam nahi ho rahe",
+     "बहुत तेज़, काम नहीं हो रहे"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ]
+  },
+  {
+   "id": "eye",
+   "q": [
+    "Nayi dhundhli/dohri nazar ya aankh ki aur problem?",
+    "नई धुँधली या दोहरी नज़र, या आँख की और समस्या है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "vomit",
+   "q": [
+    "Sir dard ke saath ulti ho rahi hai?",
+    "सिर दर्द के साथ उल्टी हो रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "provoked",
+   "q": [
+    "Khansi, chheenk, jhukne ya exercise se dard badhta hai?",
+    "खाँसी, छींक, झुकने या एक्सरसाइज़ से दर्द बढ़ता है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "jaw",
+   "q": [
+    "Khaate waqt jabde ya sir ki chamdi mein dard?",
+    "खाते समय जबड़े या सिर की चमड़ी में दर्द है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "recur",
+   "q": [
+    "Yeh pehli baar hai ya baar-baar hota hai?",
+    "यह पहली बार है या बार बार होता है?"
+   ],
+   "opts": [
+    [
+     "Pehli baar",
+     "पहली बार"
+    ],
+    [
+     "Pehle bhi hota hai",
+     "पहले भी होता है"
+    ],
+    [
+     "Purane se badla / badh raha hai",
+     "पुराने से बदला या बढ़ रहा है"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    2
+   ],
+   "routes": {
+    "1": "routine",
+    "2": "routine"
+   },
+   "defer": true
+  },
+  {
+   "id": "frequency",
+   "q": [
+    "Aata-jaata dard kitni baar hota hai?",
+    "आता जाता दर्द कितनी बार होता है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ],
+   "kind": "text",
+   "when": {
+    "pattern": [
+     1
+    ]
+   }
+  },
+  {
+   "id": "associated",
+   "q": [
+    "Matli ya aawaz se takleef bhi hai?",
+    "मतली या आवाज़ से तकलीफ़ भी है?"
+   ],
+   "opts": [
+    [
+     "Matli",
+     "मतली"
+    ],
+    [
+     "Aawaz se takleef",
+     "आवाज़ से तकलीफ़"
+    ],
+    [
+     "Dono",
+     "दोनों"
+    ],
+    [
+     "Inmein se kuch nahi",
+     "इनमें से कुछ नहीं"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ]
+  },
+  {
+   "id": "context",
+   "q": [
+    "Kis cheez ke saath dard badhta/kam hota hai? (cause pakka nahi)",
+    "किस चीज़ के साथ दर्द बढ़ता या कम होता है? कारण पक्का नहीं है।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Pregnancy/recent delivery, kamzor immunity, ya badi purani bimaari?",
+    "प्रेगनेंसी या हाल की डिलीवरी, कमज़ोर इम्युनिटी, या बड़ी पुरानी बीमारी है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Sar dard ke liye kaunsi dawa li, kitni baar? Roz ki ya nayi dawa bhi batayein.",
+    "सिर दर्द के लिए कौन सी दवा ली, कितनी बार? रोज़ की या नई दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Is sar dard ke liye kya try kiya, jaise aaram, paani, screen se break? Farq pada?",
+    "इस सिर दर्द के लिए क्या ट्राई किया, जैसे आराम, पानी, स्क्रीन से ब्रेक? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "cold": [
+  {
+   "id": "main",
+   "q": [
+    "Sardi-khansi mein sabse zyada takleef kya hai?",
+    "सर्दी खाँसी में सबसे ज़्यादा तकलीफ़ क्या है?"
+   ],
+   "opts": [
+    [
+     "Naak band / behna",
+     "नाक बंद या बहना"
+    ],
+    [
+     "Khansi",
+     "खाँसी"
+    ],
+    [
+     "Gala",
+     "गला"
+    ],
+    [
+     "Body ache / thakan",
+     "बदन दर्द या थकान"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ]
+   ],
+   "sources": [
+    3,
+    14
+   ]
+  },
+  {
+   "id": "severeBreath",
+   "q": [
+    "Saans lene mein itni takleef hai ki puri baat karna mushkil hai, ya saans ke liye haanfna pad raha hai?",
+    "साँस लेने में इतनी तकलीफ़ है कि पूरी बात करना मुश्किल है, या साँस के लिए हाँफ़ना पड़ रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    16
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "chestDanger",
+   "q": [
+    "Seene mein lagataar bhaaripan ya dabaav mehsoos ho raha hai, ya dard baanh, jabde ya peeth tak ja raha hai?",
+    "सीने में लगातार भारीपन या दबाव महसूस हो रहा है, या दर्द बाँह, जबड़े या पीठ तक जा रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    11,
+    16
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "blood",
+   "q": [
+    "Khansi mein kabhi khoon ya gulabi dhaariyan dikhi hain?",
+    "खाँसी में कभी ख़ून या गुलाबी धारियाँ दिखी हैं?"
+   ],
+   "opts": [
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Kuch chhoti dhaariyan",
+     "कुछ छोटी धारियाँ"
+    ],
+    [
+     "Zyada khoon",
+     "ज़्यादा ख़ून"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    15
+   ],
+   "routes": {
+    "1": "urgent",
+    "2": "emergency",
+    "3": "uncertain"
+   },
+   "when": {
+    "main": [
+     1
+    ]
+   }
+  },
+  {
+   "id": "breath",
+   "q": [
+    "Aam se zyada saans phoolna ya seene mein dard?",
+    "आम से ज़्यादा साँस फूलना या सीने में दर्द है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    14,
+    16
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Yeh sardi/khansi kab se hai?",
+    "यह सर्दी या खाँसी कब से है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "coughType",
+   "q": [
+    "Khansi sukhi hai ya balgam aata hai?",
+    "खाँसी सूखी है या बलगम आता है?"
+   ],
+   "opts": [
+    [
+     "Sukhi",
+     "सूखी"
+    ],
+    [
+     "Balgam",
+     "बलगम"
+    ],
+    [
+     "Dono",
+     "दोनों"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    14
+   ],
+   "when": {
+    "main": [
+     1
+    ]
+   }
+  },
+  {
+   "id": "nose",
+   "q": [
+    "Naak band hai, beh rahi hai, ya dono?",
+    "नाक बंद है, बह रही है, या दोनों?"
+   ],
+   "opts": [
+    [
+     "Band",
+     "बंद"
+    ],
+    [
+     "Beh rahi",
+     "बह रही है"
+    ],
+    [
+     "Dono",
+     "दोनों"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    3
+   ],
+   "when": {
+    "main": [
+     0
+    ]
+   }
+  },
+  {
+   "id": "fever",
+   "q": [
+    "Saath mein bukhar bhi hai?",
+    "साथ में बुखार भी है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    3
+   ]
+  },
+  {
+   "id": "temp",
+   "q": [
+    "Naapa ho to temperature aur C/F likho; warna nahi naapa.",
+    "नापा हो तो तापमान और सी या एफ़ लिखिए, वरना नहीं नापा।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ],
+   "kind": "text",
+   "when": {
+    "fever": [
+     0
+    ]
+   }
+  },
+  {
+   "id": "feverDays",
+   "q": [
+    "Bukhar 3 din se zyada hai?",
+    "बुखार तीन दिन से ज़्यादा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    3
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "when": {
+    "fever": [
+     0
+    ]
+   },
+   "defer": true
+  },
+  {
+   "id": "long",
+   "q": [
+    "Sardi 10 din se behtar nahi, ya khansi 3 hafte se zyada?",
+    "सर्दी दस दिन से बेहतर नहीं, या खाँसी तीन हफ़्ते से ज़्यादा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    3,
+    14
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "trend",
+   "q": [
+    "Sardi/khansi behtar hai ya badh rahi hai?",
+    "सर्दी या खाँसी बेहतर है या बढ़ रही है?"
+   ],
+   "opts": [
+    [
+     "Behtar",
+     "बेहतर"
+    ],
+    [
+     "Waisi hi",
+     "वैसी ही"
+    ],
+    [
+     "Badh rahi / bahut kharab",
+     "बढ़ रही या बहुत ख़राब"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    3,
+    14
+   ],
+   "routes": {
+    "2": "urgent"
+   }
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Kamzor immunity, asthma/COPD jaisi saans ki bimaari, ya badi purani bimaari?",
+    "कमज़ोर इम्युनिटी, अस्थमा या सीओपीडी जैसी साँस की बीमारी, या बड़ी पुरानी बीमारी है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Sardi-khansi ke liye kaunsi dawa ya gharelu nuskha try kiya? Roz ki dawa bhi batayein.",
+    "सर्दी खाँसी के लिए कौन सी दवा या घरेलू नुस्खा ट्राई किया? रोज़ की दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Sardi-khansi ke liye kya try kiya, jaise aaram, garam paani, bhaap? Farq pada?",
+    "सर्दी खाँसी के लिए क्या ट्राई किया, जैसे आराम, गरम पानी, भाप? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "fever": [
+  {
+   "id": "measured",
+   "q": [
+    "Bukhar thermometer se naapa hai?",
+    "बुखार थर्मामीटर से नापा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ]
+  },
+  {
+   "id": "unit",
+   "q": [
+    "Temperature kis unit mein hai?",
+    "तापमान किस यूनिट में है?"
+   ],
+   "opts": [
+    [
+     "Celsius (C)",
+     "सेल्सियस"
+    ],
+    [
+     "Fahrenheit (F)",
+     "फ़ारेनहाइट"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ],
+   "when": {
+    "measured": [
+     0
+    ]
+   }
+  },
+  {
+   "id": "reading",
+   "q": [
+    "Temperature kitna tha aur kab naapa?",
+    "तापमान कितना था और कब नापा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ],
+   "kind": "text",
+   "when": {
+    "measured": [
+     0
+    ]
+   }
+  },
+  {
+   "id": "severe",
+   "q": [
+    "Naya confusion, boli ladkhadana, ya saans bahut tez ya mushkil lag rahi hai?",
+    "नया कन्फ्यूज़न, बोली लड़खड़ाना, या साँस बहुत तेज़ या मुश्किल लग रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    10,
+    16
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "rash",
+   "q": [
+    "Honth ya skin ka rang neela ya bahut feeka lag raha hai, ya skin par dhabbe hain jo dabane se nahi mit rahe?",
+    "होंठ या स्किन का रंग नीला या बहुत फीका लग रहा है, या स्किन पर धब्बे हैं जो दबाने से नहीं मिट रहे?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    10
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "neck",
+   "q": [
+    "Bukhar ke saath bahut tez sar dard, gardan akadna, ya fit ya daura aana ho raha hai?",
+    "बुखार के साथ बहुत तेज़ सिर दर्द, गर्दन अकड़ना, या फिट या दौरा आना हो रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    10
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Bukhar kab se hai?",
+    "बुखार कब से है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "pattern",
+   "q": [
+    "Bukhar lagataar hai ya aata-jaata hai?",
+    "बुखार लगातार है या आता जाता है?"
+   ],
+   "opts": [
+    [
+     "Lagataar",
+     "लगातार"
+    ],
+    [
+     "Aata-jaata",
+     "आता जाता है"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ]
+  },
+  {
+   "id": "other",
+   "q": [
+    "Bukhar ke saath kya hai? Kai jawab chun sakte hain.",
+    "बुखार के साथ क्या है? कई जवाब चुन सकते हैं।"
+   ],
+   "opts": [
+    [
+     "Khansi / gala",
+     "खाँसी या गला"
+    ],
+    [
+     "Peshab mein takleef",
+     "पेशाब में तकलीफ़"
+    ],
+    [
+     "Pet ki takleef",
+     "पेट की तकलीफ़"
+    ],
+    [
+     "Sar dard",
+     "सिर दर्द"
+    ],
+    [
+     "Kampkapi / paseena",
+     "कँपकँपी या पसीना"
+    ],
+    [
+     "Inmein se kuch nahi",
+     "इनमें से कुछ नहीं"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ]
+   ],
+   "sources": [
+    4,
+    10
+   ],
+   "kind": "multi"
+  },
+  {
+   "id": "more",
+   "q": [
+    "Saath ki takleef ke baare mein aur batayein (optional).",
+    "साथ की तकलीफ़ के बारे में और बताइए, चाहें तो।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "fluids",
+   "q": [
+    "Paani pee paa rahe hain?",
+    "पानी पी पा रहे हैं?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi / andar nahi ruk raha",
+     "नहीं या अंदर नहीं रुक रहा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4,
+    8
+   ],
+   "routes": {
+    "1": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "urine",
+   "q": [
+    "Bukhar mein peshab kaisa hai?",
+    "बुखार में पेशाब कैसा है?"
+   ],
+   "opts": [
+    [
+     "Normal",
+     "सामान्य"
+    ],
+    [
+     "Kam / dark",
+     "कम या गहरा"
+    ],
+    [
+     "Poore din se nahi",
+     "पूरे दिन से नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4,
+    10
+   ],
+   "routes": {
+    "1": "urgent",
+    "2": "urgent"
+   }
+  },
+  {
+   "id": "trend",
+   "q": [
+    "Care ke baad bukhar behtar hai ya badh raha hai?",
+    "देखभाल के बाद बुखार बेहतर है या बढ़ रहा है?"
+   ],
+   "opts": [
+    [
+     "Behtar",
+     "बेहतर"
+    ],
+    [
+     "Abhi care try nahi ki",
+     "अभी देखभाल नहीं की"
+    ],
+    [
+     "Nahi sudhra / badh raha",
+     "नहीं सुधरा या बढ़ रहा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    4
+   ],
+   "routes": {
+    "2": "urgent"
+   }
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Kamzor immunity, badi purani bimaari, ya haal hi mein kisi bukhar/infection wale ke contact mein aaye?",
+    "कमज़ोर इम्युनिटी, बड़ी पुरानी बीमारी, या हाल ही में किसी बुखार या इन्फेक्शन वाले के संपर्क में आए?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Bukhar ke liye kaunsi dawa li, kitni baar aur kab? Nayi dawa bhi batayein.",
+    "बुखार के लिए कौन सी दवा ली, कितनी बार और कब? नई दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Bukhar ke liye kya try kiya, jaise aaram, paani, halka khana? Farq pada?",
+    "बुखार के लिए क्या ट्राई किया, जैसे आराम, पानी, हल्का खाना? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "acid": [
+  {
+   "id": "feeling",
+   "q": [
+    "Acidity jaisi takleef kahan aur kaisi hai?",
+    "एसिडिटी जैसी तकलीफ़ कहाँ और कैसी है?"
+   ],
+   "opts": [
+    [
+     "Seene ke peeche jalan",
+     "सीने के पीछे जलन"
+    ],
+    [
+     "Upar pet mein bharipan / phoolna",
+     "ऊपर पेट में भारीपन या फूलना"
+    ],
+    [
+     "Khatta paani muh mein",
+     "खट्टा पानी मुँह में"
+    ],
+    [
+     "Alag pet/peeth dard",
+     "अलग पेट या पीठ दर्द"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ],
+   "routes": {
+    "3": "review",
+    "4": "uncertain"
+   }
+  },
+  {
+   "id": "chest",
+   "q": [
+    "Seene ki takleef ruk nahi rahi, dabaav ya failta dard hai, ya saath mein paseena, chakkar ya saans ki dikkat ho rahi hai?",
+    "सीने की तकलीफ़ रुक नहीं रही, दबाव या फैलता दर्द है, या साथ में पसीना, चक्कर या साँस की दिक्कत हो रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    11
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "blood",
+   "q": [
+    "Ulti mein khoon ya coffee jaisa kuch dikha, ya potty mein bahut khoon aaya, ya kaali chipchipi potty ke saath pet dard hai?",
+    "उल्टी में ख़ून या कॉफ़ी जैसा कुछ दिखा, या पॉटी में बहुत ख़ून आया, या काली चिपचिपी पॉटी के साथ पेट दर्द है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8,
+    9
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "sudden",
+   "q": [
+    "Pet dard achanak shuru hua aur bahut tez hai?",
+    "पेट दर्द अचानक शुरू हुआ और बहुत तेज़ है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    9
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Yeh jalan/bharipan kab se hai?",
+    "यह जलन या भारीपन कब से है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "meal",
+   "q": [
+    "Khaane ke baad ya letne par takleef hoti hai?",
+    "खाने के बाद या लेटने पर तकलीफ़ होती है?"
+   ],
+   "opts": [
+    [
+     "Khaane ke baad",
+     "खाने के बाद"
+    ],
+    [
+     "Letne par",
+     "लेटने पर"
+    ],
+    [
+     "Dono",
+     "दोनों"
+    ],
+    [
+     "Alag waqt",
+     "अलग समय"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ]
+  },
+  {
+   "id": "food",
+   "q": [
+    "Isse pehle kya khaya/piya? Cause pakka nahi hai.",
+    "इससे पहले क्या खाया या पिया? कारण पक्का नहीं है।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "swallow",
+   "q": [
+    "Nigalne mein dikkat hai?",
+    "निगलने में दिक्कत है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "vomiting",
+   "q": [
+    "Baar-baar ulti ho rahi hai?",
+    "बार बार उल्टी हो रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "weight",
+   "q": [
+    "Bina koshish wazan kam hua hai, khoon ki kami batayi gayi hai, ya pet mein ganth mehsoos hoti hai?",
+    "बिना कोशिश वज़न कम हुआ है, ख़ून की कमी बताई गई है, या पेट में गाँठ महसूस होती है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "recur",
+   "q": [
+    "Badhazmi baar-baar hoti hai ya dard bahut tez hai?",
+    "बदहज़मी बार बार होती है या दर्द बहुत तेज़ है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    5
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Pregnancy, zyada wajan, smoking, ya pehle se pet ya khane ki nali ki problem?",
+    "प्रेगनेंसी, ज़्यादा वज़न, धूम्रपान, या पहले से पेट या खाने की नली की समस्या?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Acidity ke liye kaunsi dawa ya antacid li, kitni baar? Roz ki dawa bhi batayein.",
+    "एसिडिटी के लिए कौन सी दवा या एंटासिड ली, कितनी बार? रोज़ की दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Acidity ke liye kya try kiya, jaise kam teekha khana, der raat khana band? Farq pada?",
+    "एसिडिटी के लिए क्या ट्राई किया, जैसे कम तीखा खाना, देर रात खाना बंद? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "cut": [
+  {
+   "id": "bleeding",
+   "q": [
+    "Ghaav se khoon abhi kaisa nikal raha hai?",
+    "घाव से ख़ून अभी कैसा निकल रहा है?"
+   ],
+   "opts": [
+    [
+     "Ruk gaya",
+     "रुक गया"
+    ],
+    [
+     "Halka, rokne par rukta hai",
+     "हल्का, रोकने पर रुकता है"
+    ],
+    [
+     "Ruk nahi raha / uchhal raha",
+     "रुक नहीं रहा या उछल रहा है"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ],
+   "routes": {
+    "2": "emergency",
+    "3": "uncertain"
+   }
+  },
+  {
+   "id": "mechanism",
+   "q": [
+    "Ghaav kaise laga?",
+    "घाव कैसे लगा?"
+   ],
+   "opts": [
+    [
+     "Chaaku / kitchen",
+     "चाकू या किचन"
+    ],
+    [
+     "Glass",
+     "काँच"
+    ],
+    [
+     "Girne / kharonch",
+     "गिरने या खरोंच"
+    ],
+    [
+     "Jaanwar ka kaatna/kharonchna",
+     "जानवर का काटना या खरोंचना"
+    ],
+    [
+     "Insaan ka kaatna",
+     "इंसान का काटना"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6,
+    12
+   ],
+   "routes": {
+    "3": "bite",
+    "4": "urgent",
+    "6": "uncertain"
+   }
+  },
+  {
+   "id": "location",
+   "q": [
+    "Ghaav kahan hai?",
+    "घाव कहाँ है?"
+   ],
+   "opts": [
+    [
+     "Haath / ungli",
+     "हाथ या उँगली"
+    ],
+    [
+     "Hatheli",
+     "हथेली"
+    ],
+    [
+     "Chehra",
+     "चेहरा"
+    ],
+    [
+     "Pair",
+     "पैर"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ]
+  },
+  {
+   "id": "deep",
+   "q": [
+    "Ghaav bahut bada ya gehra lag raha hai, ya chehre ya hatheli par hai?",
+    "घाव बहुत बड़ा या गहरा लग रहा है, या चेहरे या हथेली पर है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "object",
+   "q": [
+    "Ghaav mein kuch phansa hua lag raha hai, sunnpan hai, ya hilane mein dikkat hai?",
+    "घाव में कुछ फँसा हुआ लग रहा है, सुन्नपन है, या हिलाने में दिक्कत है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Ghaav kab laga?",
+    "घाव कब लगा?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "dirty",
+   "q": [
+    "Ghaav mein mitti ya peep dikhi, saaf nahi ho raha, ya cut lagbhag 5 cm se bada hai?",
+    "घाव में मिट्टी या पीप दिखी, साफ़ नहीं हो रहा, या कट लगभग पाँच सेंटीमीटर से बड़ा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "infection",
+   "q": [
+    "Ghaav ke aas-pas laali, sujan ya dard badh raha hai, peep dikhi, ya bukhar ya tabiyat kharab hai?",
+    "घाव के आस पास लाली, सूजन या दर्द बढ़ रहा है, पीप दिखी, या बुखार या तबीयत ख़राब है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "tetanus",
+   "q": [
+    "Tetanus ka tika kab laga tha? Pata na ho to likh dein.",
+    "टेटनस का टीका कब लगा था? पता न हो तो लिख दें।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    6
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Diabetes, kamzor immunity, ya khoon patla karne ki dawa chal rahi hai?",
+    "डायबिटीज़, कमज़ोर इम्युनिटी, या ख़ून पतला करने की दवा चल रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Is chot par kaunsi dawa ya cream lagayi? Roz chalne wali dawa bhi batayein.",
+    "इस चोट पर कौन सी दवा या क्रीम लगाई? रोज़ चलने वाली दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Ghaav ke liye kya try kiya, jaise dhona ya dressing? Farq pada?",
+    "घाव के लिए क्या ट्राई किया, जैसे धोना या ड्रेसिंग? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "const": [
+  {
+   "id": "change",
+   "q": [
+    "Normal potty ke muqable kya badla? Kai chun sakte hain.",
+    "सामान्य पॉटी के मुकाबले क्या बदला? कई चुन सकते हैं।"
+   ],
+   "opts": [
+    [
+     "Kam baar",
+     "कम बार"
+    ],
+    [
+     "Sakht / gaanth jaisi",
+     "सख़्त या गाँठ जैसी"
+    ],
+    [
+     "Zor lagana / dard",
+     "ज़ोर लगाना या दर्द"
+    ],
+    [
+     "Puri saaf na hone ka ehsaas",
+     "पूरी साफ़ न होने का एहसास"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    7
+   ],
+   "kind": "multi"
+  },
+  {
+   "id": "sudden",
+   "q": [
+    "Pet mein achanak bahut tez dard hai?",
+    "पेट में अचानक बहुत तेज़ दर्द है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    9
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "blocked",
+   "q": [
+    "Pet dard ke saath potty aur gas bilkul nahi nikal rahi?",
+    "पेट दर्द के साथ पॉटी और गैस बिल्कुल नहीं निकल रही?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    9
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "majorBlood",
+   "q": [
+    "Ulti mein khoon ya coffee jaisa dikha, ya potty mein bahut khoon aaya, ya kaali chipchipi potty ke saath pet ka dard bana rehta hai?",
+    "उल्टी में ख़ून या कॉफ़ी जैसा दिखा, या पॉटी में बहुत ख़ून आया, या काली चिपचिपी पॉटी के साथ पेट का दर्द बना रहता है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    9
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "last",
+   "q": [
+    "Aakhri potty kab hui?",
+    "आख़िरी पॉटी कब हुई?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Potty ka yeh badlav kab se hai?",
+    "पॉटी का यह बदलाव कब से है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "blood",
+   "q": [
+    "Potty mein thoda bhi khoon hai?",
+    "पॉटी में थोड़ा भी ख़ून है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    9
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "pain",
+   "q": [
+    "Pet dard badh raha ya baar-baar ulti?",
+    "पेट दर्द बढ़ रहा है या बार बार उल्टी है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    9,
+    8
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "review",
+   "q": [
+    "Kabz baar-baar ho rahi hai, potty ki aadat achanak badli hai, wazan ghat raha hai, ya pet dard lagataar hai?",
+    "कब्ज़ बार बार हो रही है, पॉटी की आदत अचानक बदली है, वज़न घट रहा है, या पेट दर्द लगातार है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    7
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "routine",
+   "q": [
+    "Paani, fibre, activity ya toilet routine mein kya badla?",
+    "पानी, फ़ाइबर, गतिविधि या टॉयलेट रूटीन में क्या बदला?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Pregnancy, thyroid, ya roz chalne wali dawa jaise dard ki goli ya iron?",
+    "प्रेगनेंसी, थायरॉयड, या रोज़ चलने वाली दवा, जैसे दर्द की गोली या आयरन?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Kabz ke liye kaunsi dawa ya laxative li? Roz ki dawa bhi batayein.",
+    "कब्ज़ के लिए कौन सी दवा या लैक्सेटिव ली? रोज़ की दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Kabz ke liye kya try kiya, jaise paani, fibre, walk? Farq pada?",
+    "कब्ज़ के लिए क्या ट्राई किया, जैसे पानी, फ़ाइबर, वॉक? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "loose": [
+  {
+   "id": "main",
+   "q": [
+    "Loose motions, ulti, ya dono?",
+    "लूज़ मोशंस, उल्टी, या दोनों?"
+   ],
+   "opts": [
+    [
+     "Loose motions",
+     "लूज़ मोशंस"
+    ],
+    [
+     "Ulti",
+     "उल्टी"
+    ],
+    [
+     "Dono",
+     "दोनों"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ]
+  },
+  {
+   "id": "vomitBlood",
+   "q": [
+    "Kya ulti mein khoon ya coffee jaisa kuch dikha, ya ulti ka rang hara hai?",
+    "क्या उल्टी में ख़ून या कॉफ़ी जैसा कुछ दिखा, या उल्टी का रंग हरा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "pain",
+   "q": [
+    "Achanak bahut tez pet dard hai?",
+    "अचानक बहुत तेज़ पेट दर्द है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8,
+    9
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "severe",
+   "q": [
+    "Confusion, saans lene mein bahut takleef, ya gardan akadna ya tez sar dard ho raha hai?",
+    "कन्फ्यूज़न, साँस लेने में बहुत तकलीफ़, या गर्दन अकड़ना या तेज़ सिर दर्द हो रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Loose motions/ulti kab se hai?",
+    "लूज़ मोशंस या उल्टी कब से है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "count",
+   "q": [
+    "Pichhle 24 ghante mein kitni baar loose motions/ulti hui?",
+    "पिछले चौबीस घंटे में कितनी बार लूज़ मोशंस या उल्टी हुई?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "fluid",
+   "q": [
+    "Paani pee kar andar rakh paa rahe hain?",
+    "पानी पीकर अंदर रख पा रहे हैं?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi, ulti ho jati hai",
+     "नहीं, उल्टी हो जाती है"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "routes": {
+    "1": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "stoolBlood",
+   "q": [
+    "Loose motions mein khoon hai?",
+    "लूज़ मोशंस में ख़ून है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "urine",
+   "q": [
+    "Peshab mein kya badlav hai?",
+    "पेशाब में क्या बदलाव है?"
+   ],
+   "opts": [
+    [
+     "Normal",
+     "सामान्य"
+    ],
+    [
+     "Kam / dark",
+     "कम या गहरा"
+    ],
+    [
+     "Poore din se nahi",
+     "पूरे दिन से नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8,
+    10
+   ],
+   "routes": {
+    "1": "urgent",
+    "2": "urgent"
+   }
+  },
+  {
+   "id": "long",
+   "q": [
+    "Loose motions 7 din se zyada, ya ulti 2 din se zyada?",
+    "लूज़ मोशंस सात दिन से ज़्यादा या उल्टी दो दिन से ज़्यादा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "exposure",
+   "q": [
+    "Khana, travel, nayi dawa, ya kisi aur ko same takleef? (cause pakka nahi)",
+    "खाना, ट्रैवल, नई दवा, या किसी और को यही तकलीफ़? कारण पक्का नहीं है।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    8
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Kamzor immunity, haal hi mein antibiotic course, ya hospital mein rehna hua?",
+    "कमज़ोर इम्युनिटी, हाल ही में एंटीबायोटिक कोर्स, या हॉस्पिटल में रहना हुआ?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Loose motions ke liye kaunsi dawa ya ORS liya, kitni baar? Roz ki dawa bhi batayein.",
+    "लूज़ मोशंस के लिए कौन सी दवा या ओआरएस लिया, कितनी बार? रोज़ की दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Loose motions ke liye kya try kiya, jaise paani, ORS, halka khana? Farq pada?",
+    "लूज़ मोशंस के लिए क्या ट्राई किया, जैसे पानी, ओआरएस, हल्का खाना? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ],
+ "throat": [
+  {
+   "id": "swallow",
+   "q": [
+    "Gala kharab hai: paani/apni laar nigal paa rahe hain?",
+    "गला ख़राब है: पानी या अपनी लार निगल पा रहे हैं?"
+   ],
+   "opts": [
+    [
+     "Haan, dard ho sakta hai",
+     "हाँ, दर्द हो सकता है"
+    ],
+    [
+     "Nahi / laar tapak rahi",
+     "नहीं या लार टपक रही है"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "routes": {
+    "1": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "airway",
+   "q": [
+    "Saans mein takleef hai, saans ke saath unchi seeti jaisi awaaz aa rahi hai, ya takleef bahut tezi se badh rahi hai?",
+    "साँस में तकलीफ़ है, साँस के साथ ऊँची सीटी जैसी आवाज़ आ रही है, या तकलीफ़ बहुत तेज़ी से बढ़ रही है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "routes": {
+    "0": "emergency",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "duration",
+   "q": [
+    "Gala kab se kharab hai?",
+    "गला कब से ख़राब है?"
+   ],
+   "opts": [
+    [
+     "Aaj se",
+     "आज से"
+    ],
+    [
+     "1-2 din",
+     "एक या दो दिन"
+    ],
+    [
+     "3-7 din",
+     "तीन से सात दिन"
+    ],
+    [
+     "1 hafte se zyada",
+     "एक हफ़्ते से ज़्यादा"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": []
+  },
+  {
+   "id": "other",
+   "q": [
+    "Gale ke saath aur kya hai? Kai chun sakte hain.",
+    "गले के साथ और क्या है? कई चुन सकते हैं।"
+   ],
+   "opts": [
+    [
+     "Sardi / khansi",
+     "सर्दी या खाँसी"
+    ],
+    [
+     "Bukhar / kampkapi",
+     "बुखार या कँपकँपी"
+    ],
+    [
+     "Gardan ki sujan",
+     "गर्दन की सूजन"
+    ],
+    [
+     "Inmein se kuch nahi",
+     "इनमें से कुछ नहीं"
+    ],
+    [
+     "Kuch aur",
+     "कुछ और"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "kind": "multi"
+  },
+  {
+   "id": "fever",
+   "q": [
+    "Bahut tez bukhar, ya hot/cold/shivery mehsoos ho raha?",
+    "बहुत तेज़ बुखार, या गरम ठंडा या काँपता महसूस हो रहा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "dehydration",
+   "q": [
+    "Paani kam pee paa rahe, peshab kam/dark hai?",
+    "पानी कम पी पा रहे हैं, पेशाब कम या गहरा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "routes": {
+    "0": "urgent",
+    "2": "uncertain"
+   }
+  },
+  {
+   "id": "long",
+   "q": [
+    "Ek hafte mein sudhar nahi ya baar-baar gala kharab?",
+    "एक हफ़्ते में सुधार नहीं या बार बार गला ख़राब है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "lump",
+   "q": [
+    "Muh/gardan mein ganth, ya muh ka ghaav 3 hafte se zyada?",
+    "मुँह या गर्दन में गाँठ, या मुँह का घाव तीन हफ़्ते से ज़्यादा है?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "routes": {
+    "0": "routine",
+    "2": "uncertain"
+   },
+   "defer": true
+  },
+  {
+   "id": "smoke",
+   "q": [
+    "Smoking/dhuaan ka exposure ya koi aur context?",
+    "स्मोकिंग या धुएँ का असर, या कोई और बात?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    13
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "risk",
+   "q": [
+    "Kamzor immunity, smoking, ya haal hi mein kisi gala kharab/flu wale ke contact mein aaye?",
+    "कमज़ोर इम्युनिटी, धूम्रपान, या हाल ही में किसी गला ख़राब या फ्लू वाले के संपर्क में आए?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    3,
+    10,
+    13
+   ],
+   "routes": {
+    "0": "review",
+    "2": "uncertain"
+   },
+   "hint": [
+    "Is prototype se in cases mein tailored care nahi milti.",
+    "इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।"
+   ]
+  },
+  {
+   "id": "medicine",
+   "q": [
+    "Gala kharab ke liye kaunsi dawa ya gargle try kiya? Roz ki dawa bhi batayein.",
+    "गला ख़राब के लिए कौन सी दवा या गरारा ट्राई किया? रोज़ की दवा भी बताइए।"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    2,
+    5,
+    7
+   ],
+   "kind": "text"
+  },
+  {
+   "id": "tried",
+   "q": [
+    "Gala kharab ke liye kya try kiya, jaise gargle, garam paani, aaram? Farq pada?",
+    "गला ख़राब के लिए क्या ट्राई किया, जैसे गरारा, गरम पानी, आराम? फ़र्क पड़ा?"
+   ],
+   "opts": [
+    [
+     "Haan",
+     "हाँ"
+    ],
+    [
+     "Nahi",
+     "नहीं"
+    ],
+    [
+     "Pata nahi",
+     "पता नहीं"
+    ]
+   ],
+   "sources": [
+    1,
+    4,
+    7
+   ],
+   "kind": "text"
+  }
+ ]
+};
+const SOURCES=["https://www.nhs.uk/symptoms/headaches/", "https://www.nice.org.uk/guidance/cg150/chapter/Recommendations", "https://www.nhs.uk/conditions/common-cold/", "https://www.nhs.uk/conditions/fever-in-adults/", "https://www.nhs.uk/conditions/indigestion/", "https://www.nhs.uk/conditions/cuts-and-grazes/", "https://www.nhs.uk/conditions/constipation/", "https://www.nhs.uk/conditions/diarrhoea-and-vomiting/", "https://www.nhs.uk/symptoms/stomach-ache/", "https://www.nhs.uk/conditions/sepsis/", "https://www.nhs.uk/symptoms/chest-pain/", "https://www.rabiesfreeindia.mohfw.gov.in/faq", "https://www.nhs.uk/conditions/sore-throat/", "https://www.nhs.uk/symptoms/cough/", "https://www.nhs.uk/symptoms/coughing-up-blood/", "https://www.nhs.uk/symptoms/shortness-of-breath/", "https://112.gov.in/"];
+const CARE_HI={"const": "पानी और तरल पिएँ, फ़ाइबर धीरे बढ़ाएँ, रोज़ चलें, टॉयलेट का नियमित समय रखें और इच्छा न रोकें। न सुधरे या बार बार हो, पॉटी की आदत अचानक बदले, ख़ून, वज़न कम होना या पेट दर्द हो तो डॉक्टर से मिलें। अचानक बहुत तेज़ पेट दर्द, या पेट दर्द के साथ पॉटी और गैस बिल्कुल न निकलें तो इमरजेंसी मदद लें। दवा या ख़ुराक ख़ुद न चुनें।", "loose": "घर पर आराम करें। पानी छोटे छोटे घूँट पिएँ। Fruit juice और cold drink न पिएँ। भूख लगे तब खाएँ, oily और तीखा न खाएँ। Pharmacist से ORS के बारे में पूछें। हाथ साबुन से धोएँ, towels share न करें। सात दिन से ज़्यादा loose motions, दो दिन से ज़्यादा उल्टी, ख़ून, या सूसू कम या डार्क हो तो डॉक्टर से मिलें। उल्टी में ख़ून, तेज़ पेट दर्द, गर्दन अकड़ना या confusion हो तो तुरंत मेडिकल मदद लें।", "throat": "गरम नमक पानी से gargle करें, थूक दें, पीएँ नहीं। पानी पिएँ, ठंडा या नरम खाना खाएँ, धुएँ से दूर रहें, आराम करें। Pharmacist से दर्द के लिए पूछ सकते हैं। एक हफ़्ते में ठीक न हो, बार बार हो, या गांठ हो तो डॉक्टर से मिलें। साँस मुश्किल, निगलना मुश्किल, लार टपकना, या साँस में सीटी जैसी आवाज़ हो तो तुरंत मेडिकल मदद लें।", "head": "पानी पिएँ और खाना न छोड़ें। आराम से रहें, स्क्रीन से ब्रेक लें। सामान्य नींद का समय रखें। सिर दर्द बार बार हो, बढ़े या ठीक न हो तो डॉक्टर से मिलें। अचानक बहुत तेज़ दर्द, सिर की चोट, दौरा, सुन्नपन, बोलने या चलने में दिक्कत, नज़र की समस्या, या तेज़ बुखार के साथ गर्दन अकड़ना हो तो तुरंत मेडिकल मदद लें।", "cold": "आराम करें और पानी जैसे तरल पिएँ। खाँसते या छींकते समय टिशू इस्तेमाल करें, फिर हाथ साबुन से धोएँ। बच्चों को गरम पानी के बर्तन से भाप न दिलाएँ, जलने का खतरा है। बुखार तीन दिन से ज़्यादा, सर्दी दस दिन से ज़्यादा, खाँसी तीन हफ़्ते से ज़्यादा हो, या तकलीफ़ बढ़े तो डॉक्टर से मिलें। सीने में दर्द या साँस की दिक्कत हो तो तुरंत मेडिकल मदद लें।", "fever": "आराम करें और पानी पिएँ। बुखार रहने तक घर पर रहें और दूसरों से नज़दीकी संपर्क से बचें। थर्मामीटर की हिदायत का पालन करें। बुखार न सुधरे या बढ़े तो जल्दी डॉक्टर से मिलें। साँस की दिक्कत, उलझन, दौरा या गर्दन अकड़ना हो तो तुरंत मेडिकल मदद लें।", "acid": "चाय, कॉफ़ी और कोला कम करें। सोने से तीन से चार घंटे पहले खाना न खाएँ। मिर्च वाले और चर्बी वाले खाने से बचें, धूम्रपान न करें। बार बार बदहज़मी, तेज़ दर्द, वज़न कम होना, निगलने की दिक्कत, बार बार उल्टी या ख़ून हो तो डॉक्टर से मिलें। सीने में दबाव, दर्द, पसीना, साँस की दिक्कत या बाँह, जबड़े या पीठ तक दर्द हो तो बदहज़मी मानकर न छोड़ें, इमरजेंसी मदद लें।", "cut": "सिर्फ़ छोटे घाव की सामान्य देखभाल: पहले हाथ धोएँ। ख़ून रुक चुका हो तो घाव साफ़ पानी से धोएँ और साफ़ पट्टी लगाएँ। पट्टी साफ़ और सूखी रखें। फँसी चीज़ ख़ुद न निकालें। गंदगी, संक्रमण, काटने या खरोंच, या टेटनस की सुरक्षा का संदेह हो तो डॉक्टर से जाँच कराएँ।"};
+const TOPIC_HI={"head": "सिर दर्द", "cold": "सर्दी खाँसी", "fever": "बुखार", "acid": "बदहज़मी", "cut": "छोटा घाव", "const": "कब्ज़", "loose": "लूज़ मोशंस", "throat": "गला ख़राब"};
+const AUDIO={
+ "सिर दर्द कैसे शुरू हुआ?। 1. अचानक, बहुत तेज़। 2. धीरे धीरे। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-835dc1bf39.mp3",
+ "सिर दर्द कहाँ है?। 1. एक तरफ़। 2. दोनों तरफ़ या पूरा सिर। 3. आँख के आस पास। 4. गर्दन या पीछे। 5. कुछ और। 6. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-092fbf4994.mp3",
+ "पिछले तीन महीने में सिर पर चोट लगी?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-1ee51c9fff.mp3",
+ "सिर दर्द कब से है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-1739e082b5.mp3",
+ "दर्द लगातार है या आता जाता है?। 1. लगातार। 2. आता जाता है। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-8e02976350.mp3",
+ "सिर दर्द कैसा लगता है?। 1. दबाव या कसाव। 2. धड़कता हुआ। 3. चुभता या तेज़। 4. कुछ और। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-71edc6fbaf.mp3",
+ "सिर दर्द का कामों पर कितना असर है?। 1. हल्का, काम हो रहे हैं। 2. काम मुश्किल हैं। 3. बहुत तेज़, काम नहीं हो रहे। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-546e105502.mp3",
+ "नई धुँधली या दोहरी नज़र, या आँख की और समस्या है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-9dc145b4da.mp3",
+ "सिर दर्द के साथ उल्टी हो रही है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-04fee7d07a.mp3",
+ "खाँसी, छींक, झुकने या एक्सरसाइज़ से दर्द बढ़ता है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-7baa66c401.mp3",
+ "खाते समय जबड़े या सिर की चमड़ी में दर्द है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-0be85d1896.mp3",
+ "यह पहली बार है या बार बार होता है?। 1. पहली बार। 2. पहले भी होता है। 3. पुराने से बदला या बढ़ रहा है। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-9ab941d288.mp3",
+ "आता जाता दर्द कितनी बार होता है?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-295e0e5599.mp3",
+ "मतली या आवाज़ से तकलीफ़ भी है?। 1. मतली। 2. आवाज़ से तकलीफ़। 3. दोनों। 4. इनमें से कुछ नहीं। 5. कुछ और। 6. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-387dd94be0.mp3",
+ "किस चीज़ के साथ दर्द बढ़ता या कम होता है? कारण पक्का नहीं है।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-1565ebdaa6.mp3",
+ "प्रेगनेंसी या हाल की डिलीवरी, कमज़ोर इम्युनिटी, या बड़ी पुरानी बीमारी है?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-a3b51f9bda.mp3",
+ "सर्दी खाँसी में सबसे ज़्यादा तकलीफ़ क्या है?। 1. नाक बंद या बहना। 2. खाँसी। 3. गला। 4. बदन दर्द या थकान। 5. कुछ और। बटन से जवाब पक्का कीजिए।": "audio/v-ecbeb637e3.mp3",
+ "आम से ज़्यादा साँस फूलना या सीने में दर्द है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-90f1355aac.mp3",
+ "यह सर्दी या खाँसी कब से है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-92aa28afa7.mp3",
+ "खाँसी सूखी है या बलगम आता है?। 1. सूखी। 2. बलगम। 3. दोनों। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-a90d115b25.mp3",
+ "नाक बंद है, बह रही है, या दोनों?। 1. बंद। 2. बह रही है। 3. दोनों। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-967838fe17.mp3",
+ "साथ में बुखार भी है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-da2c315516.mp3",
+ "नापा हो तो तापमान और सी या एफ़ लिखिए, वरना नहीं नापा।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-6436d6da6a.mp3",
+ "बुखार तीन दिन से ज़्यादा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-70ca832baf.mp3",
+ "सर्दी दस दिन से बेहतर नहीं, या खाँसी तीन हफ़्ते से ज़्यादा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-66cedc499a.mp3",
+ "सर्दी या खाँसी बेहतर है या बढ़ रही है?। 1. बेहतर। 2. वैसी ही। 3. बढ़ रही या बहुत ख़राब। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-b6c97b6579.mp3",
+ "बुखार थर्मामीटर से नापा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-9f107ed22a.mp3",
+ "तापमान किस यूनिट में है?। 1. सेल्सियस। 2. फ़ारेनहाइट। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-675e6f09d3.mp3",
+ "तापमान कितना था और कब नापा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-d54136006b.mp3",
+ "बुखार कब से है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-fb72b0ad0a.mp3",
+ "बुखार लगातार है या आता जाता है?। 1. लगातार। 2. आता जाता है। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-97a023edd4.mp3",
+ "बुखार के साथ क्या है? कई जवाब चुन सकते हैं।। 1. खाँसी या गला। 2. पेशाब में तकलीफ़। 3. पेट की तकलीफ़। 4. सिर दर्द। 5. कँपकँपी या पसीना। 6. इनमें से कुछ नहीं। 7. कुछ और। कई जवाब चुन सकते हैं।। बटन से जवाब पक्का कीजिए।": "audio/v-6168271350.mp3",
+ "साथ की तकलीफ़ के बारे में और बताइए, चाहें तो।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-d5a378481a.mp3",
+ "पानी पी पा रहे हैं?। 1. हाँ। 2. नहीं या अंदर नहीं रुक रहा। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-508e973068.mp3",
+ "बुखार में पेशाब कैसा है?। 1. सामान्य। 2. कम या गहरा। 3. पूरे दिन से नहीं। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-9f54bfa5c5.mp3",
+ "देखभाल के बाद बुखार बेहतर है या बढ़ रहा है?। 1. बेहतर। 2. अभी देखभाल नहीं की। 3. नहीं सुधरा या बढ़ रहा। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-ba15703e36.mp3",
+ "एसिडिटी जैसी तकलीफ़ कहाँ और कैसी है?। 1. सीने के पीछे जलन। 2. ऊपर पेट में भारीपन या फूलना। 3. खट्टा पानी मुँह में। 4. अलग पेट या पीठ दर्द। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-8ba475090a.mp3",
+ "पेट दर्द अचानक शुरू हुआ और बहुत तेज़ है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-5f5474d227.mp3",
+ "यह जलन या भारीपन कब से है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-250965f513.mp3",
+ "खाने के बाद या लेटने पर तकलीफ़ होती है?। 1. खाने के बाद। 2. लेटने पर। 3. दोनों। 4. अलग समय। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-707a42095f.mp3",
+ "इससे पहले क्या खाया या पिया? कारण पक्का नहीं है।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-e9dd0d6d1e.mp3",
+ "निगलने में दिक्कत है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-69b5c372e4.mp3",
+ "बार बार उल्टी हो रही है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-8daca4db4a.mp3",
+ "बदहज़मी बार बार होती है या दर्द बहुत तेज़ है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-41168beec6.mp3",
+ "घाव कैसे लगा?। 1. चाकू या किचन। 2. काँच। 3. गिरने या खरोंच। 4. जानवर का काटना या खरोंचना। 5. इंसान का काटना। 6. कुछ और। 7. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-a84be35e6e.mp3",
+ "घाव कहाँ है?। 1. हाथ या उँगली। 2. हथेली। 3. चेहरा। 4. पैर। 5. कुछ और। 6. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-124b4365ab.mp3",
+ "घाव कब लगा?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-9e108f5840.mp3",
+ "टेटनस का टीका कब लगा था? पता न हो तो लिख दें।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-5b6a6b2199.mp3",
+ "सामान्य पॉटी के मुकाबले क्या बदला? कई चुन सकते हैं।। 1. कम बार। 2. सख़्त या गाँठ जैसी। 3. ज़ोर लगाना या दर्द। 4. पूरी साफ़ न होने का एहसास। 5. कुछ और। 6. पता नहीं। कई जवाब चुन सकते हैं।। बटन से जवाब पक्का कीजिए।": "audio/v-4842e772d3.mp3",
+ "पेट में अचानक बहुत तेज़ दर्द है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-5699452488.mp3",
+ "पेट दर्द के साथ पॉटी और गैस बिल्कुल नहीं निकल रही?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-18022cb389.mp3",
+ "आख़िरी पॉटी कब हुई?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-640cf325a9.mp3",
+ "पॉटी का यह बदलाव कब से है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-65b8a0e3a4.mp3",
+ "पॉटी में थोड़ा भी ख़ून है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-a9853fbcdc.mp3",
+ "पेट दर्द बढ़ रहा है या बार बार उल्टी है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-bd3cdb3db8.mp3",
+ "पानी, फ़ाइबर, गतिविधि या टॉयलेट रूटीन में क्या बदला?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-139099f333.mp3",
+ "लूज़ मोशंस, उल्टी, या दोनों?। 1. लूज़ मोशंस। 2. उल्टी। 3. दोनों। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-484f78448a.mp3",
+ "अचानक बहुत तेज़ पेट दर्द है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-476ce3110b.mp3",
+ "लूज़ मोशंस या उल्टी कब से है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-aefc020124.mp3",
+ "पिछले चौबीस घंटे में कितनी बार लूज़ मोशंस या उल्टी हुई?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-02f50574b0.mp3",
+ "पानी पीकर अंदर रख पा रहे हैं?। 1. हाँ। 2. नहीं, उल्टी हो जाती है। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-3e7df96990.mp3",
+ "लूज़ मोशंस में ख़ून है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-3523829137.mp3",
+ "पेशाब में क्या बदलाव है?। 1. सामान्य। 2. कम या गहरा। 3. पूरे दिन से नहीं। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-6c95f8c819.mp3",
+ "लूज़ मोशंस सात दिन से ज़्यादा या उल्टी दो दिन से ज़्यादा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-91aacf5a33.mp3",
+ "खाना, ट्रैवल, नई दवा, या किसी और को यही तकलीफ़? कारण पक्का नहीं है।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-23b8df39b5.mp3",
+ "गला ख़राब है: पानी या अपनी लार निगल पा रहे हैं?। 1. हाँ, दर्द हो सकता है। 2. नहीं या लार टपक रही है। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-ab3a8fad3b.mp3",
+ "गला कब से ख़राब है?। 1. आज से। 2. एक या दो दिन। 3. तीन से सात दिन। 4. एक हफ़्ते से ज़्यादा। 5. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-7bde273ed9.mp3",
+ "गले के साथ और क्या है? कई चुन सकते हैं।। 1. सर्दी या खाँसी। 2. बुखार या कँपकँपी। 3. गर्दन की सूजन। 4. इनमें से कुछ नहीं। 5. कुछ और। कई जवाब चुन सकते हैं।। बटन से जवाब पक्का कीजिए।": "audio/v-6ca93e6d75.mp3",
+ "बहुत तेज़ बुखार, या गरम ठंडा या काँपता महसूस हो रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-b3d05924b1.mp3",
+ "पानी कम पी पा रहे हैं, पेशाब कम या गहरा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-072d89ec74.mp3",
+ "एक हफ़्ते में सुधार नहीं या बार बार गला ख़राब है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-469879abe3.mp3",
+ "मुँह या गर्दन में गाँठ, या मुँह का घाव तीन हफ़्ते से ज़्यादा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-aae1087fcc.mp3",
+ "स्मोकिंग या धुएँ का असर, या कोई और बात?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-5ffea250cc.mp3",
+ "यह जानकारी अठारह साल या उससे बड़े व्यक्ति के लिए है?। 1. हाँ, अठारह या उससे ज़्यादा। 2. अठारह से कम। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-4b9234c979.mp3",
+ "किस तकलीफ़ पर जानकारी चाहिए?। विषय चुनना निदान नहीं। पेट दर्द को अपने आप एसिडिटी नहीं मानते। दूसरी तकलीफ़ भी डॉक्टर को बताइए।। 1. सिर दर्द। 2. सर्दी खाँसी। 3. बुखार। 4. बदहज़मी। 5. छोटा घाव। 6. कब्ज़। 7. लूज़ मोशंस। 8. गला ख़राब। 9. कुछ और या पक्का नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-4c805d3143.mp3",
+ "कई तकलीफ़ मिलीं। पहले किस पर बात करें?। विषय चुनना निदान नहीं। पेट दर्द को अपने आप एसिडिटी नहीं मानते। दूसरी तकलीफ़ भी डॉक्टर को बताइए।। 1. सिर दर्द। 2. सर्दी खाँसी। 3. बुखार। 4. बदहज़मी। 5. छोटा घाव। 6. कब्ज़। 7. लूज़ मोशंस। 8. गला ख़राब। 9. कुछ और या पक्का नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-230b7a4540.mp3",
+ "आपने सिर दर्द बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-d1a638cbca.mp3",
+ "आपने सर्दी खाँसी बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-00f32086f2.mp3",
+ "आपने बुखार बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-64a460ebf9.mp3",
+ "आपने बदहज़मी बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-ca6f10c133.mp3",
+ "आपने छोटा घाव बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-467aa4a519.mp3",
+ "आपने कब्ज़ बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-5f11032d15.mp3",
+ "आपने लूज़ मोशंस बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-e8d9e67890.mp3",
+ "आपने गला ख़राब बताया। इसी पर सवाल पूछूँ?। 1. हाँ। 2. विषय बदलें। बटन से जवाब पक्का कीजिए।": "audio/v-cfe8c48e83.mp3",
+ "अभी इमरजेंसी मेडिकल मदद लें। इमरजेंसी में एक एक दो पर कॉल करें। कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-7599c631fa.mp3",
+ "जल्दी, अभी डॉक्टर से अर्जेंट समीक्षा लें। हालत गंभीर हो तो इमरजेंसी में एक एक दो पर कॉल करें। कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-52e2db4ebf.mp3",
+ "डॉक्टर से अपॉइंटमेंट या समीक्षा कराएँ। बिगड़ने पर जल्दी मदद लें। कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-1ff86a6f77.mp3",
+ "डॉक्टर से जाँच कराएँ। यह स्थिति इस सीमित प्रोटोटाइप की सामान्य जानकारी से बाहर है। कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-ef19389d02.mp3",
+ "पक्का नहीं है, मेडिकल सलाह लें। इस जवाब से सुरक्षित होने का दावा नहीं किया जा सकता। कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-ba24a29085.mp3",
+ "जानवर के काटने या खरोंच पर जल्दी स्वास्थ्य केंद्र जाएँ। घाव साबुन और बहते पानी से पंद्रह मिनट धोएँ। मदद में देर न करें। कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-162ff23fce.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। पानी पिएँ और खाना न छोड़ें। आराम से रहें, स्क्रीन से ब्रेक लें। सामान्य नींद का समय रखें। सिर दर्द बार बार हो, बढ़े या ठीक न हो तो डॉक्टर से मिलें। अचानक बहुत तेज़ दर्द, सिर की चोट, दौरा, सुन्नपन, बोलने या चलने में दिक्कत, नज़र की समस्या, या तेज़ बुखार के साथ गर्दन अकड़ना हो तो तुरंत मेडिकल मदद लें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-000301529a.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। आराम करें और पानी जैसे तरल पिएँ। खाँसते या छींकते समय टिशू इस्तेमाल करें, फिर हाथ साबुन से धोएँ। बच्चों को गरम पानी के बर्तन से भाप न दिलाएँ, जलने का खतरा है। बुखार तीन दिन से ज़्यादा, सर्दी दस दिन से ज़्यादा, खाँसी तीन हफ़्ते से ज़्यादा हो, या तकलीफ़ बढ़े तो डॉक्टर से मिलें। सीने में दर्द या साँस की दिक्कत हो तो तुरंत मेडिकल मदद लें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-f8d4a137b1.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। आराम करें और पानी पिएँ। बुखार रहने तक घर पर रहें और दूसरों से नज़दीकी संपर्क से बचें। थर्मामीटर की हिदायत का पालन करें। बुखार न सुधरे या बढ़े तो जल्दी डॉक्टर से मिलें। साँस की दिक्कत, उलझन, दौरा या गर्दन अकड़ना हो तो तुरंत मेडिकल मदद लें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-d81d8ae4a3.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। चाय, कॉफ़ी और कोला कम करें। सोने से तीन से चार घंटे पहले खाना न खाएँ। मिर्च वाले और चर्बी वाले खाने से बचें, धूम्रपान न करें। बार बार बदहज़मी, तेज़ दर्द, वज़न कम होना, निगलने की दिक्कत, बार बार उल्टी या ख़ून हो तो डॉक्टर से मिलें। सीने में दबाव, दर्द, पसीना, साँस की दिक्कत या बाँह, जबड़े या पीठ तक दर्द हो तो बदहज़मी मानकर न छोड़ें, इमरजेंसी मदद लें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-cc58b3733a.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। सिर्फ़ छोटे घाव की सामान्य देखभाल: पहले हाथ धोएँ। ख़ून रुक चुका हो तो घाव साफ़ पानी से धोएँ और साफ़ पट्टी लगाएँ। पट्टी साफ़ और सूखी रखें। फँसी चीज़ ख़ुद न निकालें। गंदगी, संक्रमण, काटने या खरोंच, या टेटनस की सुरक्षा का संदेह हो तो डॉक्टर से जाँच कराएँ। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-b0f7173b71.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। पानी और तरल पिएँ, फ़ाइबर धीरे बढ़ाएँ, रोज़ चलें, टॉयलेट का नियमित समय रखें और इच्छा न रोकें। न सुधरे या बार बार हो, पॉटी की आदत अचानक बदले, ख़ून, वज़न कम होना या पेट दर्द हो तो डॉक्टर से मिलें। अचानक बहुत तेज़ पेट दर्द, या पेट दर्द के साथ पॉटी और गैस बिल्कुल न निकलें तो इमरजेंसी मदद लें। दवा या ख़ुराक ख़ुद न चुनें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-9dd54860f4.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। घर पर आराम करें। पानी छोटे छोटे घूँट पिएँ। Fruit juice और cold drink न पिएँ। भूख लगे तब खाएँ, oily और तीखा न खाएँ। Pharmacist से ORS के बारे में पूछें। हाथ साबुन से धोएँ, towels share न करें। सात दिन से ज़्यादा loose motions, दो दिन से ज़्यादा उल्टी, ख़ून, या सूसू कम या डार्क हो तो डॉक्टर से मिलें। उल्टी में ख़ून, तेज़ पेट दर्द, गर्दन अकड़ना या confusion हो तो तुरंत मेडिकल मदद लें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-b80fd05252.mp3",
+ "इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है। गरम नमक पानी से gargle करें, थूक दें, पीएँ नहीं। पानी पिएँ, ठंडा या नरम खाना खाएँ, धुएँ से दूर रहें, आराम करें। Pharmacist से दर्द के लिए पूछ सकते हैं। एक हफ़्ते में ठीक न हो, बार बार हो, या गांठ हो तो डॉक्टर से मिलें। साँस मुश्किल, निगलना मुश्किल, लार टपकना, या साँस में सीटी जैसी आवाज़ हो तो तुरंत मेडिकल मदद लें। यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।": "audio/v-5fb578a066.mp3",
+ "नमस्ते। बोल सेहत में आपका स्वागत है। बोल सेहत अभी सिर्फ़ कुछ चीज़ों के लिए आपकी मदद कर सकता है। यह अभी सिर्फ़ एक प्रोटोटाइप है, डॉक्टरों ने इसे जाँचा या पक्का नहीं किया है। आप माइक दबाकर अपनी तकलीफ़ बोल सकते हैं, या नीचे से कोई विषय चुन सकते हैं। आसान सवालों के बाद आपको एक डॉक्टर कार्ड मिलेगा, उसे डॉक्टर को ज़रूर दिखाइए। इस ऐप पर पूरी तरह भरोसा न कीजिए, यह डॉक्टर की सलाह नहीं है। इमरजेंसी में एक एक दो या एक शून्य आठ पर तुरंत कॉल करें।": "audio/v-f9f3de7d4c.mp3",
+ "सिर दर्द के लिए कौन सी दवा ली, कितनी बार? रोज़ की या नई दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-df14b7f7bc.mp3",
+ "इस सिर दर्द के लिए क्या ट्राई किया, जैसे आराम, पानी, स्क्रीन से ब्रेक? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-8971a88484.mp3",
+ "कमज़ोर इम्युनिटी, अस्थमा या सीओपीडी जैसी साँस की बीमारी, या बड़ी पुरानी बीमारी है?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-afe74590c1.mp3",
+ "सर्दी खाँसी के लिए कौन सी दवा या घरेलू नुस्खा ट्राई किया? रोज़ की दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-2474eb45a0.mp3",
+ "सर्दी खाँसी के लिए क्या ट्राई किया, जैसे आराम, गरम पानी, भाप? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-e6f28953c8.mp3",
+ "कमज़ोर इम्युनिटी, बड़ी पुरानी बीमारी, या हाल ही में किसी बुखार या इन्फेक्शन वाले के संपर्क में आए?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-c3aacc4727.mp3",
+ "बुखार के लिए कौन सी दवा ली, कितनी बार और कब? नई दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-4540bd3f37.mp3",
+ "बुखार के लिए क्या ट्राई किया, जैसे आराम, पानी, हल्का खाना? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-14bf6aabad.mp3",
+ "प्रेगनेंसी, ज़्यादा वज़न, धूम्रपान, या पहले से पेट या खाने की नली की समस्या?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-8255ac03ab.mp3",
+ "एसिडिटी के लिए कौन सी दवा या एंटासिड ली, कितनी बार? रोज़ की दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-b36cc8af1e.mp3",
+ "एसिडिटी के लिए क्या ट्राई किया, जैसे कम तीखा खाना, देर रात खाना बंद? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-647ae32ded.mp3",
+ "डायबिटीज़, कमज़ोर इम्युनिटी, या ख़ून पतला करने की दवा चल रही है?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-48e3b4e368.mp3",
+ "इस चोट पर कौन सी दवा या क्रीम लगाई? रोज़ चलने वाली दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-bd27ab9252.mp3",
+ "घाव के लिए क्या ट्राई किया, जैसे धोना या ड्रेसिंग? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-d155b7918a.mp3",
+ "प्रेगनेंसी, थायरॉयड, या रोज़ चलने वाली दवा, जैसे दर्द की गोली या आयरन?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-10b2975303.mp3",
+ "कब्ज़ के लिए कौन सी दवा या लैक्सेटिव ली? रोज़ की दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-a5c3574738.mp3",
+ "कब्ज़ के लिए क्या ट्राई किया, जैसे पानी, फ़ाइबर, वॉक? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-949f9311ec.mp3",
+ "कमज़ोर इम्युनिटी, हाल ही में एंटीबायोटिक कोर्स, या हॉस्पिटल में रहना हुआ?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-8ab454e54b.mp3",
+ "लूज़ मोशंस के लिए कौन सी दवा या ओआरएस लिया, कितनी बार? रोज़ की दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-3d46b3d12b.mp3",
+ "लूज़ मोशंस के लिए क्या ट्राई किया, जैसे पानी, ओआरएस, हल्का खाना? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-7decb279af.mp3",
+ "कमज़ोर इम्युनिटी, धूम्रपान, या हाल ही में किसी गला ख़राब या फ्लू वाले के संपर्क में आए?। इस प्रोटोटाइप से इन मामलों में आपकी स्थिति के हिसाब से देखभाल नहीं मिलती।। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-df6110634c.mp3",
+ "गला ख़राब के लिए कौन सी दवा या गरारा ट्राई किया? रोज़ की दवा भी बताइए।। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-cdd54abb9b.mp3",
+ "गला ख़राब के लिए क्या ट्राई किया, जैसे गरारा, गरम पानी, आराम? फ़र्क पड़ा?। जवाब लिखिए या पता नहीं चुनिए।। बटन से जवाब पक्का कीजिए।": "audio/v-4aabe57664.mp3",
+ "क्या आँखों से देखने में धुंधला धुंधला या ब्लर दिख रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-15366bd476.mp3",
+ "बुखार के साथ गर्दन अकड़ रही है, रोशनी से आँखों को बहुत तकलीफ़ हो रही है, या स्किन पर नए दाग़ धब्बे हैं जो दबाने से नहीं मिटते?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-3e928b8366.mp3",
+ "सीने में लगातार भारीपन या दबाव महसूस हो रहा है, या दर्द बाँह, जबड़े या पीठ तक जा रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-590dd60da4.mp3",
+ "सीने की तकलीफ़ रुक नहीं रही, दबाव या फैलता दर्द है, या साथ में पसीना, चक्कर या साँस की दिक्कत हो रही है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-1681828d5e.mp3",
+ "बिना कोशिश वज़न कम हुआ है, ख़ून की कमी बताई गई है, या पेट में गाँठ महसूस होती है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-cf0a0a46a9.mp3",
+ "घाव में कुछ फँसा हुआ लग रहा है, सुन्नपन है, या हिलाने में दिक्कत है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-1b299a9b30.mp3",
+ "घाव में मिट्टी या पीप दिखी, साफ़ नहीं हो रहा, या कट लगभग पाँच सेंटीमीटर से बड़ा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-ac7ca5c681.mp3",
+ "घाव के आस पास लाली, सूजन या दर्द बढ़ रहा है, पीप दिखी, या बुखार या तबीयत ख़राब है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-6af8cec288.mp3",
+ "कब्ज़ बार बार हो रही है, पॉटी की आदत अचानक बदली है, वज़न घट रहा है, या पेट दर्द लगातार है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-3bee3ac630.mp3",
+ "क्या उल्टी में ख़ून या कॉफ़ी जैसा कुछ दिखा, या उल्टी का रंग हरा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-0757e64783.mp3",
+ "क्या हाथ पैर में नई कमज़ोरी या सुन्नपन है, फिट या दौरा आया, थोड़ा कन्फ्यूज़न है, या बोलने चलने में दिक्कत हो रही है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-60279f4626.mp3",
+ "क्या अचानक एक या दोनों आँखों की नज़र बहुत कम हो गई है, या अंधेरा लग रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-f2c71e47ac.mp3",
+ "साँस लेने में इतनी तकलीफ़ है कि पूरी बात करना मुश्किल है, या साँस के लिए हाँफ़ना पड़ रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-fe6907137f.mp3",
+ "खाँसी में कभी ख़ून या गुलाबी धारियाँ दिखी हैं?। 1. नहीं। 2. कुछ छोटी धारियाँ। 3. ज़्यादा ख़ून। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-6b63207b55.mp3",
+ "नया कन्फ्यूज़न, बोली लड़खड़ाना, या साँस बहुत तेज़ या मुश्किल लग रही है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-045b7fb9d3.mp3",
+ "होंठ या स्किन का रंग नीला या बहुत फीका लग रहा है, या स्किन पर धब्बे हैं जो दबाने से नहीं मिट रहे?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-d2f51dd0fe.mp3",
+ "बुखार के साथ बहुत तेज़ सिर दर्द, गर्दन अकड़ना, या फिट या दौरा आना हो रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-426b0b34e3.mp3",
+ "उल्टी में ख़ून या कॉफ़ी जैसा कुछ दिखा, या पॉटी में बहुत ख़ून आया, या काली चिपचिपी पॉटी के साथ पेट दर्द है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-b8d76fa837.mp3",
+ "घाव से ख़ून अभी कैसा निकल रहा है?। 1. रुक गया। 2. हल्का, रोकने पर रुकता है। 3. रुक नहीं रहा या उछल रहा है। 4. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-84cc18a70b.mp3",
+ "घाव बहुत बड़ा या गहरा लग रहा है, या चेहरे या हथेली पर है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-d3ee86d82e.mp3",
+ "उल्टी में ख़ून या कॉफ़ी जैसा दिखा, या पॉटी में बहुत ख़ून आया, या काली चिपचिपी पॉटी के साथ पेट का दर्द बना रहता है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-2eb91a80d4.mp3",
+ "कन्फ्यूज़न, साँस लेने में बहुत तकलीफ़, या गर्दन अकड़ना या तेज़ सिर दर्द हो रहा है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-8777342619.mp3",
+ "साँस में तकलीफ़ है, साँस के साथ ऊँची सीटी जैसी आवाज़ आ रही है, या तकलीफ़ बहुत तेज़ी से बढ़ रही है?। 1. हाँ। 2. नहीं। 3. पता नहीं। बटन से जवाब पक्का कीजिए।": "audio/v-50cb64f7e7.mp3"
+};
+'use strict';
+const main=document.getElementById('main');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const disclaimer='Medical advice nahi. Doctors ne is prototype ko abhi check nahi kiya hai. Yeh diagnosis, emergency service ya doctor ka badal nahi hai.';
+const sorryLine="Please consult with doctor for this. I can't give you verified answer until checked manually.";
+const WELCOME="नमस्ते। बोल सेहत में आपका स्वागत है। बोल सेहत अभी सिर्फ़ कुछ चीज़ों के लिए आपकी मदद कर सकता है। यह अभी सिर्फ़ एक प्रोटोटाइप है, डॉक्टरों ने इसे जाँचा या पक्का नहीं किया है। आप माइक दबाकर अपनी तकलीफ़ बोल सकते हैं, या नीचे से कोई विषय चुन सकते हैं। आसान सवालों के बाद आपको एक डॉक्टर कार्ड मिलेगा, उसे डॉक्टर को ज़रूर दिखाइए। इस ऐप पर पूरी तरह भरोसा न कीजिए, यह डॉक्टर की सलाह नहीं है। इमरजेंसी में एक एक दो या एक शून्य आठ पर तुरंत कॉल करें।";
+let state={},soundOn=true,adultConfirmed=false,rec=null,curAudio=null,speechToken=0,bridgeReady=false,lastUserChoice=-1000;
+document.addEventListener('deviceready',()=>{bridgeReady=true});
+function stopSpeaking(){speechToken++;if(curAudio){curAudio.pause();curAudio.currentTime=0;curAudio=null}if(window.speechSynthesis)speechSynthesis.cancel();if(bridgeReady&&window.cordova)cordova.exec(()=>{},()=>{},'NativeSpeech','stop',[])}
+function nativeSpeak(text,token){if(token!==speechToken||!soundOn)return;if(bridgeReady&&window.cordova){cordova.exec(()=>{},()=>{if(token===speechToken)webSpeak(text)},'NativeSpeech','speak',[text]);return}webSpeak(text)}
+function webSpeak(text){if(!soundOn||!window.speechSynthesis)return;const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.rate=1;const v=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith('hi'));if(v)u.voice=v;speechSynthesis.speak(u)}
+function speak(text){stopSpeaking();if(!soundOn)return;const token=speechToken,path=AUDIO[text];if(path){curAudio=new Audio(path);let fellBack=false;const fallback=()=>{if(!fellBack){fellBack=true;nativeSpeak(text,token)}};curAudio.onerror=fallback;const p=curAudio.play();if(p)p.catch(fallback)}else nativeSpeak(text,token)}
+function toggleSound(){soundOn=!soundOn;stopSpeaking();document.getElementById('sndbtn').textContent=soundOn?'🔊 Mute':'🔇 Unmute';if(soundOn){if(state.outcome)speakOutcome();else if(state.current)speakQuestion();else speak(WELCOME)}}
+function listen(cb){const p=window.plugins?.speechRecognition;if(p){const start=()=>p.startListening(r=>cb(r?.[0]||null),()=>cb(null),{language:'hi-IN',matches:1,showPopup:true,showPartial:false});p.hasPermission(x=>x?start():p.requestPermission(start,()=>cb(null)),()=>cb(null));return}const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return cb(null);rec=new SR();rec.lang='hi-IN';rec.onresult=e=>cb(e.results[0][0].transcript);rec.onerror=()=>cb(null);try{rec.start()}catch{cb(null)}}
+function safety(){return `<div class="safe">${disclaimer}<br>Sirf adults 18+. No diagnosis, dose ya medical clearance.</div>`}
+function emergency(){return `<details class="tips"><summary>Abhi emergency help chahiye?</summary><p class="fine">Severe saans ki dikkat, lagataar chest pressure, behoshi ya bleeding na rukna ho to sawalon ka intezar mat karein. Yeh poori list nahi hai.</p><a class="bigbtn call" href="tel:112">112 Emergency</a><a class="source" href="https://112.gov.in/" target="_blank" rel="noopener">India ERSS 112 ↗</a></details>`}
+function goHome(){stopSpeaking();state={};main.innerHTML=`<div class="micwrap"><button id="mic" aria-label="Takleef boliye" onclick="micTap()">🎙</button></div><div class="prompt">Apni takleef se shuru karein</div><div class="sub">Complaint ke hisaab se alag sawal.<br>Student prototype, doctor nahi.</div><div class="heard" id="heard"></div><div id="textin"><input id="tin" maxlength="1200" aria-label="Takleef likhein" placeholder="Jaise: mujhe sar dard hai" onkeydown="if(event.key==='Enter')startInput(this.value)"><button onclick="startInput(document.getElementById('tin').value)">Aage</button></div><div class="chips">${topics.map(t=>`<button class="chip" onclick="startInput('${t.name}','${t.id}')">${t.name}</button>`).join('')}</div>${safety()}<p class="mini">v1.3.4 • Build 10014 • 14 NOV 2026<br>Offline care/audio. Phone speech provider internet use kar sakta hai. Symptom record app save/upload nahi karta.</p>${emergency()}`;window.scrollTo(0,0);speak(WELCOME)}
+function micTap(){stopSpeaking();const h=document.getElementById('heard');h.style.display='block';h.textContent='Sun raha hoon...';listen(t=>{if(!document.getElementById('tin'))return;document.getElementById('tin').value=t||'';h.textContent=t?'Yeh suna: '+t+'. Check karke Aage dabao.':'Aawaz nahi mili. Text/chip use karo.'})}
+const matches=[['head',/sar\s*dard|sir\s*dard|headache|सिर.{0,3}दर्द|सर.{0,3}दर्द/i],['cold',/sardi|khansi|cough|cold|सर्दी|खांसी|खाँसी/i],['fever',/bukhar|fever|बुखार/i],['acid',/acidity|indigestion|heartburn|badhazmi|बदहजमी|बदहज़मी|एसिडिटी/i],['cut',/cut|graze|kharonch|ghaav|घाव|कट|खरोंच/i],['const',/kabz|constipation|कब्ज/i],['loose',/loose\s*motion|diarrh|dast|दस्त|लूज़|लूज/i],['throat',/gala\s*(kharab|dard)|sore\s*throat|गला.{0,3}(खराब|दर्द)|गले.{0,3}दर्द/i]];
+function detectTopics(raw){if(/\b(nahi|nahin|no|not)\b|नहीं|नही/i.test(raw))return [];return matches.filter(([,re])=>re.test(raw)).map(([id])=>id)}
+function explicitDanger(raw){return raw.split(/[.!?।,;\n]/).some(c=>{if(/\b(nahi|nahin|no|not)\b|नहीं|नही/i.test(c))return /(?:khoon|bleeding|खून|ख़ून).{0,18}(?:nahi\s*ruk|नहीं\s*रुक)/i.test(c)||/(?:saans|साँस|सांस).{0,15}(?:nahi\s*(?:aa|le)|नहीं.{0,4}(?:आ|ले))/i.test(c);return /(?:achanak|sudden|अचानक).{0,20}(?:bahut\s*tez|worst|बहुत\s*तेज|बहुत\s*तेज़).{0,12}(?:sar|sir|head|सिर|सर)|(?:sar|sir|head|सिर|सर).{0,15}(?:achanak|sudden|अचानक).{0,15}(?:bahut|worst|बहुत)|(?:chest|seene|सीने).{0,12}(?:pressure|dabaav|दबाव)|(?:behosh|unconscious|बेहोश)/i.test(c)})}
+function startInput(raw,id){raw=String(raw||'').trim();if(!raw)return;stopSpeaking();state={raw:raw.slice(0,1200),topic:null,answers:{},history:[],review:null};if(explicitDanger(raw))return finish('emergency','Aapke likhe shabdon mein sambhavit khatre ka sanket hai. Yeh automated keyword check hai, diagnosis nahi.');state.pendingId=id||null;state.candidates=detectTopics(raw);if(!adultConfirmed)return showQuestion(SCOPE,handleScope);chooseTopic()}
+const SCOPE={id:'scope',q:['Yeh jaankari 18+ adult ke liye hai?','यह जानकारी अठारह साल या उससे बड़े व्यक्ति के लिए है?'],opts:[['Haan, 18+','हाँ, अठारह या उससे ज़्यादा'],['18 se kam','अठारह से कम'],['Pata nahi','पता नहीं']]};
+function handleScope(i){if(i!==0)return finish('review','Yeh prototype 18 se kam ya unsure age ke liye nahi hai. Doctor ki salah lein.');adultConfirmed=true;chooseTopic()}
+function chooseTopic(){if(state.pendingId){state.topic=topics.find(t=>t.id===state.pendingId);state.pendingId=null;return nextNode()}const cs=state.candidates;if(cs.length===1){const t=topics.find(t=>t.id===cs[0]);return showQuestion({id:'confirm',q:['Aapne '+t.name+' bataya. Isi par sawal poochhun?','आपने '+TOPIC_HI[t.id]+' बताया। इसी पर सवाल पूछूँ?'],opts:[['Haan','हाँ'],['Topic badlein','विषय बदलें']]},i=>{if(i===0){state.topic=t;nextNode()}else topicPicker()})}topicPicker()}
+function topicPicker(){showQuestion({id:'topic',q:[state.candidates?.length>1?'Kai topics mile. Pehle kis par baat karein?':'Kaunsi takleef par jaankari chahiye?',state.candidates?.length>1?'कई तकलीफ़ मिलीं। पहले किस पर बात करें?':'किस तकलीफ़ पर जानकारी चाहिए?'],hint:['Topic chunna diagnosis nahi. Pet dard ko apne-aap acidity nahi maante. Dusri complaints doctor ko bhi batayein.','विषय चुनना निदान नहीं। पेट दर्द को अपने आप एसिडिटी नहीं मानते। दूसरी तकलीफ़ भी डॉक्टर को बताइए।'],opts:[...topics.map(t=>[t.name,TOPIC_HI[t.id]]),['Kuch aur / sure nahi','कुछ और या पक्का नहीं']]},i=>{if(i>=topics.length)return finish('review','Yeh complaint limited library mein nahi hai. Doctor se check karayein.');state.topic=topics[i];state.answers={};state.history=[];state.review=null;nextNode()})}
+function visible(n){return !n.when||Object.entries(n.when).every(([id,vals])=>vals.includes(state.answers[id]?.index))}
+function nextNode(){delete state.outcome;const n=FLOWS[state.topic.id].find(n=>visible(n)&&!state.answers[n.id]);if(!n)return showSummary();showQuestion(n,(i,v)=>acceptNode(n,i,v))}
+function remember(n,i,v){state.answers[n.id]={id:n.id,q:n.q[0],value:v,index:i,route:(n.routes&&n.routes[i])||null,sources:n.sources||[]};state.history.push(n.id)}
+const RANK={info:0,routine:1,review:2,uncertain:3,urgent:4,bite:5,emergency:6};
+function worstOutcome(){let w=null;for(const a of Object.values(state.answers)){if(a.route&&(!w||RANK[a.route]>RANK[w]))w=a.route}return w}
+function dangerStrip(){const w=worstOutcome();if(!w||RANK[w]<RANK.urgent)return '';if(w==='emergency')return `<div class="alertbar">Aapke jawab mein khatre ka sanket mila hai. Abhi takleef ho to <a href="tel:112">112 par call karein</a>. Baaki sawal Doctor Card ke liye jaari rahenge.</div>`;return `<div class="alertbar amber">Aapka ek jawab serious hai, doctor review chahiye. Takleef badhe to 112 par call karein. Baaki sawal jaari rahenge.</div>`}
+function acceptNode(n,i,v){remember(n,i,v);nextNode()}
+function showQuestion(n,cb){stopSpeaking();state.current={...n,cb};window.scrollTo(0,0);const h=n.hint||['Jawab doctor ko dikhane ke liye hai, diagnosis nahi.','जवाब डॉक्टर को दिखाने के लिए है, निदान नहीं।'];main.innerHTML=`${dangerStrip()}<div class="qcard"><div class="qnum">${state.topic?esc(state.topic.name):'BOL SEHAT'} • DOCTOR CARD</div><div class="qtext">${esc(n.q[0])}</div><div class="qsub">${esc(h[0])}</div>${n.kind==='text'?`<textarea id="answerText" maxlength="300" aria-label="Jawab likhein" placeholder="Likhein, ya pata nahi"></textarea><button class="opt" onclick="submitText(event)">Jawab rakhein / Aage</button><button class="opt" onclick="chooseUnknown(event)">Pata nahi / chhodein</button>`:n.kind==='multi'?`<div class="opts">${n.opts.map((o,i)=>`<label class="opt check"><input type="checkbox" value="${i}" onchange="multiChanged(this)"> ${esc(o[0])}</label>`).join('')}</div><button class="opt" onclick="submitMulti(event)">Chune hue jawab rakhein</button>`:`<div class="opts">${n.opts.map((o,i)=>`<button class="opt" onclick="choose(${i},event)">${esc(o[0])}</button>`).join('')}</div>`}<div class="tools"><button class="opt listen" onclick="speakQuestion()">Sawaal + options suno</button><button class="opt listen" onclick="voiceAnswer()">🎙 Jawab bolo</button>${state.history.length?'<button class="opt listen" onclick="back()">← Pichhla jawab badlein</button>':''}<button class="opt listen" onclick="changeTopic()">Topic badlein</button></div><div class="mini" id="vstatus"></div></div>${safety()}${emergency()}`;speakQuestion()}
+function rapidClick(ev){if(!ev)return false;const now=performance.now();if(now-lastUserChoice<350)return true;lastUserChoice=now;return false}
+function choose(i,ev){if(rapidClick(ev))return;const n=state.current;if(!n||!n.opts[i])return;state.current=null;n.cb(i,n.opts[i][0])}
+function chooseUnknown(ev){if(rapidClick(ev))return;const n=state.current;if(!n)return;state.current=null;n.cb(-1,'Pata nahi / jawab nahi diya')}
+function submitText(ev){if(rapidClick(ev))return;const n=state.current;if(!n)return;const v=document.getElementById('answerText').value.trim();if(!v){document.getElementById('vstatus').textContent='Jawab likhein ya Pata nahi chunein.';return}state.current=null;n.cb(-1,v.slice(0,300))}
+function multiChanged(el){const inputs=[...document.querySelectorAll('.check input')];const opts=state.current.opts;const isNone=i=>/Inmein se|Pata nahi/.test(opts[i][0]);if(el.checked){if(isNone(+el.value))inputs.forEach(x=>{if(x!==el)x.checked=false});else inputs.forEach(x=>{if(isNone(+x.value))x.checked=false})}}
+function submitMulti(ev){if(rapidClick(ev))return;const n=state.current,idx=[...document.querySelectorAll('.check input:checked')].map(x=>+x.value);if(!n||!idx.length){document.getElementById('vstatus').textContent='Kam se kam ek jawab chunein.';return}state.current=null;n.cb(idx,idx.map(i=>n.opts[i][0]).join('; '))}
+function questionSpeech(n){return n.q[1]+'। '+(n.hint?n.hint[1]+'। ':'')+(n.kind==='text'?'जवाब लिखिए या पता नहीं चुनिए।':n.opts.map((o,i)=>(i+1)+'. '+o[1]).join('। ')+(n.kind==='multi'?'। कई जवाब चुन सकते हैं।':''))+'। बटन से जवाब पक्का कीजिए।'}
+function speakQuestion(){if(state.current)speak(questionSpeech(state.current))}
+function voiceAnswer(){stopSpeaking();const n=state.current;if(!n)return;document.getElementById('vstatus').textContent='Sun raha hoon...';listen(t=>{if(state.current!==n)return;const v=document.getElementById('vstatus');if(v)v.textContent=t?'Yeh suna: '+t+'. Neeche jawab check/confirm karein.':'Aawaz nahi mili. Button/text use karein.';if(t&&n.kind==='text')document.getElementById('answerText').value=t.slice(0,300);else if(t){const norm=s=>s.trim().replace(/[।.]/g,'').toLowerCase();const idx=n.opts.findIndex(o=>norm(o[0])===norm(t)||norm(o[1])===norm(t));if(idx>=0){const bs=document.querySelectorAll('.opts .opt');bs[idx]?.focus();if(bs[idx])bs[idx].style.borderColor='#0d9488'}}})}
+function back(){stopSpeaking();const id=state.history.pop();if(!id)return;delete state.answers[id];delete state.outcome;nextNode()}
+function editAnswer(id){const k=state.history.indexOf(id);if(k<0)return;state.history.slice(k).forEach(x=>delete state.answers[x]);state.history=state.history.slice(0,k);delete state.outcome;nextNode()}
+function changeTopic(){stopSpeaking();state.answers={};state.history=[];state.review=null;state.topic=null;delete state.outcome;state.candidates=[];topicPicker()}
+function cardText(){return 'BOL SEHAT - DOCTOR CARD\nSelf-reported, not a diagnosis or medical document.\nOriginal complaint: '+state.raw+'\nSelected topic (not diagnosis): '+(state.topic?.name||'Unconfirmed')+'\n'+state.history.map(id=>state.answers[id].q+': '+state.answers[id].value).join('\n')+'\nUnasked/unconfirmed items are not negative answers.\nAction shown: '+(state.outcome||'Review answers')+'\nTime: '+new Date().toLocaleString('en-IN')+'\nNo doctor verification. Please review with a clinician.'}
+function card(edit=false){return `<div class="dcard"><h3>DOCTOR CARD • SELF-REPORTED</h3><div class="row"><b>Aapke apne shabd</b>${esc(state.raw)}</div><div class="row"><b>Chuna hua topic, diagnosis nahi</b>${esc(state.topic?.name||'Unconfirmed')}</div>${state.history.map(id=>{const a=state.answers[id];return `<div class="row"><b>${esc(a.q)}</b>${esc(a.value)} ${edit?`<button class="edit" onclick="editAnswer('${id}')">Badlein</button>`:''}</div>`}).join('')}<p class="disc">Jo poochha nahi ya confirm nahi hua, use "Nahi" nahi maana gaya. Symptom record app save/upload nahi karta. Phone speech provider audio process kar sakta hai.</p><div class="bigbtns"><button class="bigbtn card" onclick="copyCard()">Copy Card</button><button class="bigbtn call" onclick="callFam()">Family Call</button></div></div>`}
+function showSummary(){stopSpeaking();state.current=null;main.innerHTML=`<div class="qcard"><h2>Jawab check karein</h2><p class="fine">Galat jawab badlein. Badalne par uske baad ke dependent jawab dobara poochhe jayenge.</p></div>${card(true)}<button class="opt" onclick="finish(worstOutcome()||'info')">Check kiya • Jaankari dekhein</button>${safety()}${emergency()}`;window.scrollTo(0,0)}
+const ACTIONS={emergency:['Abhi emergency medical help lein','अभी इमरजेंसी मेडिकल मदद लें। इमरजेंसी में एक एक दो पर कॉल करें।'],urgent:['Jaldi / abhi doctor se urgent review lein','जल्दी, अभी डॉक्टर से अर्जेंट समीक्षा लें। हालत गंभीर हो तो इमरजेंसी में एक एक दो पर कॉल करें।'],routine:['Doctor se appointment / review karayein','डॉक्टर से अपॉइंटमेंट या समीक्षा कराएँ। बिगड़ने पर जल्दी मदद लें।'],review:['Doctor se check karayein','डॉक्टर से जाँच कराएँ। यह स्थिति इस सीमित प्रोटोटाइप की सामान्य जानकारी से बाहर है।'],uncertain:['Pakka nahi: medical advice lein','पक्का नहीं है, मेडिकल सलाह लें। इस जवाब से सुरक्षित होने का दावा नहीं किया जा सकता।'],bite:['Jaanwar ka exposure: jaldi health facility jayein','जानवर के काटने या खरोंच पर जल्दी स्वास्थ्य केंद्र जाएँ। घाव साबुन और बहते पानी से पंद्रह मिनट धोएँ। मदद में देर न करें।'],info:['Is topic par aam jaankari','इस विषय पर सामान्य जानकारी। यह निदान या घर पर रहने की इजाज़त नहीं है।']};
+function outcomeSpeech(type,topic){return ACTIONS[type][1]+' '+(type==='info'?CARE_HI[topic]+' ': 'कृपया इस समस्या के लिए डॉक्टर से मिलें। बिना डॉक्टर की जाँच के मैं पक्का जवाब नहीं दे सकता। मैनुअल जाँच इस ऐप में नहीं होती। ')+'यह डॉक्टर की सलाह नहीं है। डॉक्टरों ने इस प्रोटोटाइप को अभी जाँचा नहीं है।'}
+function finish(type,reason=''){stopSpeaking();state.current=null;state.outcome=type;const trig=Object.values(state.answers||{}).filter(a=>a.route);if(!reason&&trig.length)reason='Is natije ke peechhe yeh jawab: '+trig.map(a=>a.q+' - '+a.value).join(' | ');state.reason=reason;const t=state.topic;const explanation=type==='info'?'Yeh diagnosis, ghar par rehne ki permission ya danger na hone ka proof nahi. Doubt ya bigadti takleef mein doctor se madad lein.':sorryLine+' Doctor se milkar check karayein. Bina manual check ke main verified jawab nahi de sakta. Manual review app mein nahi hota; doctor ko dikhana hoga.';main.innerHTML=`<div class="anscard ${type==='emergency'?'warn':'plain'}"><div class="anslvl">${ACTIONS[type][0]}</div><div class="anstxt">${esc(explanation)}</div>${reason?`<p class="fine">${esc(reason)}</p>`:''}</div>${type==='emergency'?'<a class="opt urgentLink" href="tel:112">112 Emergency call</a>':''}${type==='bite'?'<div class="tips">Ghaav/kharonch ko abhi sabun aur bahte paani se 15 minute dhoyein. Jaldi health facility jayein. Pet/vaccinated jaanwar maan kar ignore na karein. Vaccine ka faisla clinician karega.</div>':''}${type==='info'&&t?`<div class="tips"><h3>GENERAL CARE • TREATMENT PLAN NAHI</h3><ul>${t.care.map(c=>`<li>${esc(c)}</li>`).join('')}</ul><p class="fine">Dawa/dose khud mat chunein. Doctor/pharmacist se poochhein.</p></div><div class="tips"><h3>DOCTOR SE KAB MILNA HAI</h3><p>${esc(t.review)}</p><p>${esc(t.warning)}</p><p class="fine">Yeh poori checklist nahi hai.</p></div>`:''}<button class="opt listen" onclick="speakOutcome()">Jawab suno</button>${sourcePanel()}${card(true)}${safety()}${emergency()}<button class="opt" onclick="goHome()">Nayi baat shuru karein</button>`;window.scrollTo(0,0);speakOutcome()}
+function sourcePanel(){const ids=new Set([17]);if(state.topic)FLOWS[state.topic.id].forEach(n=>(n.sources||[]).forEach(id=>ids.add(id)));return `<details class="tips"><summary>Sources • 11 NOV 2026 ko padhe</summary><p class="fine">NHS/NICE/India government. Hindi/Hinglish app ki translation hai, sources ne endorse/verify nahi kiya. UK service numbers India mein use nahi hote.</p>${[...ids].sort((a,b)=>a-b).map(i=>`<a class="source" target="_blank" rel="noopener" href="${SOURCES[i-1]}">[${i}] ${esc(SOURCES[i-1])} ↗</a>`).join('')}</details>`}
+function speakOutcome(){speak(outcomeSpeech(state.outcome,state.topic?.id))}
+function copyCard(){const txt=cardText();if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>alert('Card copy ho gaya'),()=>fallback(txt));else fallback(txt)}
+function fallback(txt){const a=document.createElement('textarea');a.value=txt;main.appendChild(a);a.select();try{if(!document.execCommand('copy'))throw 0;alert('Card copy ho gaya')}catch{alert('Copy nahi hua. Card ka screenshot lein.')}a.remove()}
+function callFam(){const v=prompt('Family number check/likhein:',localStorage.getItem('bs_fam')||'');if(v===null)return;const n=v.replace(/[^\d+]/g,'');if(!/^\+?\d{10,15}$/.test(n))return alert('Sahi number likhein.');if(confirm('Is number par call karein? '+n)){localStorage.setItem('bs_fam',n);location.href='tel:'+n}}
+goHome();
+</script></body></html>
