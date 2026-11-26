@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>BOL SEHAT — Tested</title>
+<title>BOL SEHAT - Tested</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Segoe UI','Noto Sans',system-ui,sans-serif;background:#eaf3ee;color:#1c1430;min-height:100vh}
@@ -41,8 +41,8 @@
 <body>
 <div id="app">
   <header>
-    <div class="logo">BOL SEHAT — TESTED</div>
-    <div class="tag">Live app par chalaye gaye asli tests. Jo kaam kiya, jo nahi, aur jo phone pe dekhna baaki hai — sab yahan, seedhi baat.</div>
+    <div class="logo">BOL SEHAT - TESTED</div>
+    <div class="tag">Live app par chalaye gaye asli tests. Jo kaam kiya, jo nahi, aur jo phone pe dekhna baaki hai - sab yahan, seedhi baat.</div>
     <span class="pill">26 NOV 2026 • v1.3.4 (build 10014)</span>
   </header>
   <main>
@@ -64,7 +64,7 @@
 
     <div class="heard">
       Test environment: desktop Chrome (cloud browser), 26 Nov 2026.<br>
-      Mic aur speaker is browser mein sunai/sunar nahi dete — isliye voice ke 2 tests Manan ke phone par confirm karne hain.<br>
+      Mic aur speaker is browser mein sunai/sunar nahi dete - isliye voice ke 2 tests Manan ke phone par confirm karne hain.<br>
       App khud kehta hai: student prototype, doctor-checked nahi.
     </div>
   </main>
@@ -75,17 +75,17 @@
 <script>
 const TESTS=[
  {t:"Site live hai (HTTPS, GitHub Pages)",c:"pass",r:"manangupta1811-ai.github.io/bol-sehat 200 OK deta hai. Served file humari index.html se byte-by-byte same."},
- {t:"Mobile layout sahi dikhta hai",c:"pass",r:"Phone-width layout, mic button, symptom chips, disclaimers — sab screenshot se verify kiya."},
+ {t:"Mobile layout sahi dikhta hai",c:"pass",r:"Phone-width layout, mic button, symptom chips, disclaimers - sab screenshot se verify kiya."},
  {t:"Sar dard / Headache poora flow",c:"pass",r:"Chip dabaya → 18+ check → ~20 adaptive sawaal (red-flag screening ke saath) → review screen → poora DOCTOR CARD (SELF-REPORTED) bana. Sab jawab card mein sahi aaye."},
- {t:"Red-flag sawaal sahi jagah aate hain",c:"pass",r:"Kamzori/sunnpan, nazar, gardan akadna + bukhar, chot — yeh sawaal flow ke shuru mein poochhe jaate hain, jaisa hona chahiye."},
+ {t:"Red-flag sawaal sahi jagah aate hain",c:"pass",r:"Kamzori/sunnpan, nazar, gardan akadna + bukhar, chot - yeh sawaal flow ke shuru mein poochhe jaate hain, jaisa hona chahiye."},
  {t:"Koi bhi jawab baad mein badal sakte hain",c:"pass",r:"Review screen par har jawab ke paas 'Badlein' hai. Note bhi likha hai: dependent sawaal dobara poochhe jayenge."},
  {t:"Free-text likhna kaam karta hai",c:"pass",r:"'mujhe sar dard hai' likh ke Aage dabaya → Doctor Card flow shuru ho gaya."},
  {t:"Shuru se (restart) kaam karta hai",c:"pass",r:"Flow ke beech se home screen par wapas aaya, chips dobara dikhe."},
  {t:"Doosra topic (Bukhar / Fever) bhi chalta hai",c:"pass",r:"Fever chip se bhi flow shuru hua (18+ gate ke saath)."},
  {t:"Emergency links (112 / 108) maujood hain",c:"pass",r:"Har screen par tel:112 aur tel:108 links hain."},
- {t:"Voice input (mic) aur voice output (suno)",c:"note",r:"Buttons hain aur browser mein SpeechRecognition + speechSynthesis dono available hain. Par test browser mein mic/speaker nahi hai — awaaz asli phone par confirm karni hai."},
- {t:"Copy Card button",c:"note",r:"Test browser mein click karne par page hang ho gaya aur copy confirm nahi hua. Ek baar Manan ke phone par dabaa ke dekhna zaroori — agar wahan bhi dikkat aaye to fix karna hoga."},
- {t:"Offline kaam karna",c:"note",r:"Footer likhta hai 'Offline card/audio', par koi service worker register nahi hota — page load ke liye internet chahiye. Ya to offline caching laagoo karo ya line hatao."}
+ {t:"Voice input (mic) aur voice output (suno)",c:"note",r:"Buttons hain aur browser mein SpeechRecognition + speechSynthesis dono available hain. Par test browser mein mic/speaker nahi hai - awaaz asli phone par confirm karni hai."},
+ {t:"Copy Card button",c:"note",r:"Test browser mein click karne par page hang ho gaya aur copy confirm nahi hua. Ek baar Manan ke phone par dabaa ke dekhna zaroori - agar wahan bhi dikkat aaye to fix karna hoga."},
+ {t:"Offline kaam karna",c:"note",r:"Footer likhta hai 'Offline card/audio', par koi service worker register nahi hota - page load ke liye internet chahiye. Ya to offline caching laagoo karo ya line hatao."}
 ];
 const list=document.getElementById('list');
 function render(f){
